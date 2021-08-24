@@ -183,8 +183,24 @@ void CParameterSetting::SetButtonGroupEnabled(bool enabled, int index)
 	}
 	else if (index == 2)
 	{
-
+		
+        ui.radioButton_FreeSecond->setEnabled(enabled);
+        ui.radioButton_ExternalSecond->setEnabled(enabled);
+        ui.radioButton_SoftSecond->setEnabled(enabled);
 	}
+    else if (index == 3)
+    {
+        ui.radioButton_FreeThird->setEnabled(enabled);
+        ui.radioButton_ExternalThird->setEnabled(enabled);
+        ui.radioButton_SoftThird->setEnabled(enabled);
+    }
+    else if (index == 4)
+    {
+        ui.radioButton_FreeFourth->setEnabled(enabled);
+        ui.radioButton_ExternalFourth->setEnabled(enabled);
+        ui.radioButton_SoftFourth->setEnabled(enabled);
+    }
+
 }
 
 bool CParameterSetting::OpenCamera(MV_CC_DEVICE_INFO device_info, int index)
@@ -226,34 +242,108 @@ bool CParameterSetting::OpenCamera(MV_CC_DEVICE_INFO device_info, int index)
 	}
 	else if (index == 2)
 	{
-		//int nRet = m_SecondCameraInfo.CameraHandle.Open(&device_info);
-		//if (nRet != MV_OK)
-		//{
-		//	QMessageBox::information(this, QString::fromLocal8Bit("错误"), QString::fromLocal8Bit("打开二工位相机失败:") + QString::number(nRet));
-		//	return false;
-		//}
-		//else
-		//{
-		//	unsigned int PackSize = 0;
-		//	int nRet = m_SecondCameraInfo.CameraHandle.GetOptimalPacketSize(&PackSize);
-		//	if (nRet == MV_OK)
-		//	{
-		//		m_SecondCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);
-		//	}
-		//	else
-		//	{
-		//		QMessageBox::information(this, QString::fromLocal8Bit("错误"), "Second Camera GevSCPSPacketSize Error:" + QString::number(nRet));
-		//		return false;
-		//	}
-		//	nRet = m_SecondCameraInfo.CameraHandle.StartGrabbing();
-		//	if (nRet != MV_OK)
-		//	{
-		//		QMessageBox::information(this, QString::fromLocal8Bit("错误"), "Second Camera Start grabbing Error:" + QString::number(nRet));
-		//		return false;
-		//	}
-		//	m_SecondCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_ON);
-		//	m_SecondCameraInfo.CameraHandle.SetEnumValue("TriggerSource", MV_TRIGGER_SOURCE_LINE0);
-		//}
+		int nRet = m_SecondCameraInfo.CameraHandle.Open(&device_info);
+		if (nRet != MV_OK)
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("错误"), QString::fromLocal8Bit("打开二工位相机失败:") + QString::number(nRet));
+			return false;
+		}
+		else
+		{
+			unsigned int PackSize = 0;
+			int nRet = m_SecondCameraInfo.CameraHandle.GetOptimalPacketSize(&PackSize);
+			if (nRet == MV_OK)
+			{
+				m_SecondCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);
+                GetGain(m_SecondCameraInfo.CameraHandle);
+                GetExposureTime(m_SecondCameraInfo.CameraHandle);
+			}
+			else
+			{
+				QMessageBox::information(this, QString::fromLocal8Bit("错误"), "Second Camera GevSCPSPacketSize Error:" + QString::number(nRet));
+				return false;
+			}
+			nRet = m_SecondCameraInfo.CameraHandle.StartGrabbing();
+			if (nRet != MV_OK)
+			{
+				QMessageBox::information(this, QString::fromLocal8Bit("错误"), "Second Camera Start grabbing Error:" + QString::number(nRet));
+				return false;
+			}
+			m_SecondCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_ON);
+			m_SecondCameraInfo.CameraHandle.SetEnumValue("TriggerSource", MV_TRIGGER_SOURCE_LINE0);
+		}
+    }
+	else if (index == 3)
+	{
+        int nRet = m_ThirdCameraInfo.CameraHandle.Open(&device_info);
+        if (nRet != MV_OK)
+        {
+            QMessageBox::information(this, QString::fromLocal8Bit("错误"),
+                                     QString::fromLocal8Bit("打开三工位相机失败:") + QString::number(nRet));
+            return false;
+        }
+        else
+        {
+            unsigned int PackSize = 0;
+            int nRet = m_ThirdCameraInfo.CameraHandle.GetOptimalPacketSize(&PackSize);
+            if (nRet == MV_OK)
+            {
+                m_ThirdCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);
+                GetGain(m_ThirdCameraInfo.CameraHandle);
+                GetExposureTime(m_ThirdCameraInfo.CameraHandle);
+            }
+            else
+            {
+                QMessageBox::information(this, QString::fromLocal8Bit("错误"),
+                                         "Third Camera GevSCPSPacketSize Error:" + QString::number(nRet));
+                return false;
+            }
+            nRet = m_ThirdCameraInfo.CameraHandle.StartGrabbing();
+            if (nRet != MV_OK)
+            {
+                QMessageBox::information(this, QString::fromLocal8Bit("错误"),
+                                         "Third Camera Start grabbing Error:" + QString::number(nRet));
+                return false;
+            }
+            m_ThirdCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_ON);
+            m_ThirdCameraInfo.CameraHandle.SetEnumValue("TriggerSource", MV_TRIGGER_SOURCE_LINE0);
+        }
+	}
+	else if (index == 4)
+	{
+        int nRet = m_FourCameraInfo.CameraHandle.Open(&device_info);
+        if (nRet != MV_OK)
+        {
+            QMessageBox::information(this, QString::fromLocal8Bit("错误"),
+                                     QString::fromLocal8Bit("打开四工位相机失败:") + QString::number(nRet));
+            return false;
+        }
+        else
+        {
+            unsigned int PackSize = 0;
+            int nRet = m_FourCameraInfo.CameraHandle.GetOptimalPacketSize(&PackSize);
+            if (nRet == MV_OK)
+            {
+                m_FourCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);
+                GetGain(m_FourCameraInfo.CameraHandle);
+                GetExposureTime(m_FourCameraInfo.CameraHandle);
+            }
+            else
+            {
+                QMessageBox::information(this, QString::fromLocal8Bit("错误"),
+                                         "Fourth Camera GevSCPSPacketSize Error:" + QString::number(nRet));
+                return false;
+            }
+            nRet = m_FourCameraInfo.CameraHandle.StartGrabbing();
+            if (nRet != MV_OK)
+            {
+                QMessageBox::information(this, QString::fromLocal8Bit("错误"),
+                                         "Fourth Camera Start grabbing Error:" + QString::number(nRet));
+                return false;
+            }
+            m_FourCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_ON);
+            m_FourCameraInfo.CameraHandle.SetEnumValue("TriggerSource", MV_TRIGGER_SOURCE_LINE0);
+        }
 	}
 	return true;
 }

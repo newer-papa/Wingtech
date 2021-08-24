@@ -72,11 +72,11 @@ public:
     QGridLayout *gridLayout_18;
     QLabel *label_First_4;
     QLabel *label_15;
-    QRadioButton *radioButton_FreeFirst_4;
+    QRadioButton *radioButton_FreeSecond;
     QPushButton *pushButton_LoadNGPath_Second;
     QPushButton *pushButton_LoadOKPath_Second;
-    QRadioButton *radioButton_SoftFirst_4;
-    QRadioButton *radioButton_ExternalFirst_4;
+    QRadioButton *radioButton_SoftSecond;
+    QRadioButton *radioButton_ExternalSecond;
     QPushButton *pushButton_OpenSecond;
     QPushButton *pushButton_TriggerSecond;
     QCheckBox *checkBox_SaveNG_Second;
@@ -112,11 +112,11 @@ public:
     QGridLayout *gridLayout_19;
     QLabel *label_First_5;
     QLabel *label_17;
-    QRadioButton *radioButton_FreeFirst_5;
+    QRadioButton *radioButton_FreeThird;
     QPushButton *pushButton_LoadNGPath_Third;
     QPushButton *pushButton_LoadOKPath_Third;
-    QRadioButton *radioButton_SoftFirst_5;
-    QRadioButton *radioButton_ExternalFirst_5;
+    QRadioButton *radioButton_SoftThird;
+    QRadioButton *radioButton_ExternalThird;
     QPushButton *pushButton_OpenThird;
     QPushButton *pushButton_TriggerThird;
     QCheckBox *checkBox_SaveNG_Third;
@@ -410,10 +410,10 @@ public:
 
         gridLayout_18->addWidget(label_15, 4, 4, 1, 2);
 
-        radioButton_FreeFirst_4 = new QRadioButton(groupBox_Frist_3);
-        radioButton_FreeFirst_4->setObjectName(QString::fromUtf8("radioButton_FreeFirst_4"));
+        radioButton_FreeSecond = new QRadioButton(groupBox_Frist_3);
+        radioButton_FreeSecond->setObjectName(QString::fromUtf8("radioButton_FreeSecond"));
 
-        gridLayout_18->addWidget(radioButton_FreeFirst_4, 1, 2, 1, 1);
+        gridLayout_18->addWidget(radioButton_FreeSecond, 1, 2, 1, 1);
 
         pushButton_LoadNGPath_Second = new QPushButton(groupBox_Frist_3);
         pushButton_LoadNGPath_Second->setObjectName(QString::fromUtf8("pushButton_LoadNGPath_Second"));
@@ -426,15 +426,15 @@ public:
 
         gridLayout_18->addWidget(pushButton_LoadOKPath_Second, 3, 7, 1, 1);
 
-        radioButton_SoftFirst_4 = new QRadioButton(groupBox_Frist_3);
-        radioButton_SoftFirst_4->setObjectName(QString::fromUtf8("radioButton_SoftFirst_4"));
+        radioButton_SoftSecond = new QRadioButton(groupBox_Frist_3);
+        radioButton_SoftSecond->setObjectName(QString::fromUtf8("radioButton_SoftSecond"));
 
-        gridLayout_18->addWidget(radioButton_SoftFirst_4, 1, 5, 1, 2);
+        gridLayout_18->addWidget(radioButton_SoftSecond, 1, 5, 1, 2);
 
-        radioButton_ExternalFirst_4 = new QRadioButton(groupBox_Frist_3);
-        radioButton_ExternalFirst_4->setObjectName(QString::fromUtf8("radioButton_ExternalFirst_4"));
+        radioButton_ExternalSecond = new QRadioButton(groupBox_Frist_3);
+        radioButton_ExternalSecond->setObjectName(QString::fromUtf8("radioButton_ExternalSecond"));
 
-        gridLayout_18->addWidget(radioButton_ExternalFirst_4, 1, 3, 1, 2);
+        gridLayout_18->addWidget(radioButton_ExternalSecond, 1, 3, 1, 2);
 
         pushButton_OpenSecond = new QPushButton(groupBox_Frist_3);
         pushButton_OpenSecond->setObjectName(QString::fromUtf8("pushButton_OpenSecond"));
@@ -620,10 +620,10 @@ public:
 
         gridLayout_19->addWidget(label_17, 4, 4, 1, 2);
 
-        radioButton_FreeFirst_5 = new QRadioButton(groupBox_Frist_4);
-        radioButton_FreeFirst_5->setObjectName(QString::fromUtf8("radioButton_FreeFirst_5"));
+        radioButton_FreeThird = new QRadioButton(groupBox_Frist_4);
+        radioButton_FreeThird->setObjectName(QString::fromUtf8("radioButton_FreeThird"));
 
-        gridLayout_19->addWidget(radioButton_FreeFirst_5, 1, 2, 1, 1);
+        gridLayout_19->addWidget(radioButton_FreeThird, 1, 2, 1, 1);
 
         pushButton_LoadNGPath_Third = new QPushButton(groupBox_Frist_4);
         pushButton_LoadNGPath_Third->setObjectName(QString::fromUtf8("pushButton_LoadNGPath_Third"));
@@ -636,15 +636,15 @@ public:
 
         gridLayout_19->addWidget(pushButton_LoadOKPath_Third, 3, 7, 1, 1);
 
-        radioButton_SoftFirst_5 = new QRadioButton(groupBox_Frist_4);
-        radioButton_SoftFirst_5->setObjectName(QString::fromUtf8("radioButton_SoftFirst_5"));
+        radioButton_SoftThird = new QRadioButton(groupBox_Frist_4);
+        radioButton_SoftThird->setObjectName(QString::fromUtf8("radioButton_SoftThird"));
 
-        gridLayout_19->addWidget(radioButton_SoftFirst_5, 1, 5, 1, 2);
+        gridLayout_19->addWidget(radioButton_SoftThird, 1, 5, 1, 2);
 
-        radioButton_ExternalFirst_5 = new QRadioButton(groupBox_Frist_4);
-        radioButton_ExternalFirst_5->setObjectName(QString::fromUtf8("radioButton_ExternalFirst_5"));
+        radioButton_ExternalThird = new QRadioButton(groupBox_Frist_4);
+        radioButton_ExternalThird->setObjectName(QString::fromUtf8("radioButton_ExternalThird"));
 
-        gridLayout_19->addWidget(radioButton_ExternalFirst_5, 1, 3, 1, 2);
+        gridLayout_19->addWidget(radioButton_ExternalThird, 1, 3, 1, 2);
 
         pushButton_OpenThird = new QPushButton(groupBox_Frist_4);
         pushButton_OpenThird->setObjectName(QString::fromUtf8("pushButton_OpenThird"));
@@ -1097,11 +1097,11 @@ public:
         groupBox_Frist_3->setTitle(QCoreApplication::translate("DialogSetting", "\344\270\200\345\267\245\344\275\215-\347\233\270\346\234\272\345\217\202\346\225\260", nullptr));
         label_First_4->setText(QCoreApplication::translate("DialogSetting", "\347\233\270\346\234\272\345\220\215\347\247\260", nullptr));
         label_15->setText(QCoreApplication::translate("DialogSetting", "\345\242\236\347\233\212", nullptr));
-        radioButton_FreeFirst_4->setText(QCoreApplication::translate("DialogSetting", "\350\207\252\347\224\261\351\207\207\351\233\206", nullptr));
+        radioButton_FreeSecond->setText(QCoreApplication::translate("DialogSetting", "\350\207\252\347\224\261\351\207\207\351\233\206", nullptr));
         pushButton_LoadNGPath_Second->setText(QCoreApplication::translate("DialogSetting", "\346\211\223\345\274\200\350\267\257\345\276\204", nullptr));
         pushButton_LoadOKPath_Second->setText(QCoreApplication::translate("DialogSetting", "\346\211\223\345\274\200\350\267\257\345\276\204", nullptr));
-        radioButton_SoftFirst_4->setText(QCoreApplication::translate("DialogSetting", "\350\275\257\350\247\246\345\217\221", nullptr));
-        radioButton_ExternalFirst_4->setText(QCoreApplication::translate("DialogSetting", "\347\241\254\350\247\246\345\217\221", nullptr));
+        radioButton_SoftSecond->setText(QCoreApplication::translate("DialogSetting", "\350\275\257\350\247\246\345\217\221", nullptr));
+        radioButton_ExternalSecond->setText(QCoreApplication::translate("DialogSetting", "\347\241\254\350\247\246\345\217\221", nullptr));
         pushButton_OpenSecond->setText(QCoreApplication::translate("DialogSetting", "\346\211\223\345\274\200\347\233\270\346\234\272", nullptr));
         pushButton_TriggerSecond->setText(QCoreApplication::translate("DialogSetting", "\350\247\246\345\217\221\344\270\200\346\254\241", nullptr));
         checkBox_SaveNG_Second->setText(QCoreApplication::translate("DialogSetting", "\344\277\235\345\255\230NG", nullptr));
@@ -1129,11 +1129,11 @@ public:
         groupBox_Frist_4->setTitle(QCoreApplication::translate("DialogSetting", "\344\270\200\345\267\245\344\275\215-\347\233\270\346\234\272\345\217\202\346\225\260", nullptr));
         label_First_5->setText(QCoreApplication::translate("DialogSetting", "\347\233\270\346\234\272\345\220\215\347\247\260", nullptr));
         label_17->setText(QCoreApplication::translate("DialogSetting", "\345\242\236\347\233\212", nullptr));
-        radioButton_FreeFirst_5->setText(QCoreApplication::translate("DialogSetting", "\350\207\252\347\224\261\351\207\207\351\233\206", nullptr));
+        radioButton_FreeThird->setText(QCoreApplication::translate("DialogSetting", "\350\207\252\347\224\261\351\207\207\351\233\206", nullptr));
         pushButton_LoadNGPath_Third->setText(QCoreApplication::translate("DialogSetting", "\346\211\223\345\274\200\350\267\257\345\276\204", nullptr));
         pushButton_LoadOKPath_Third->setText(QCoreApplication::translate("DialogSetting", "\346\211\223\345\274\200\350\267\257\345\276\204", nullptr));
-        radioButton_SoftFirst_5->setText(QCoreApplication::translate("DialogSetting", "\350\275\257\350\247\246\345\217\221", nullptr));
-        radioButton_ExternalFirst_5->setText(QCoreApplication::translate("DialogSetting", "\347\241\254\350\247\246\345\217\221", nullptr));
+        radioButton_SoftThird->setText(QCoreApplication::translate("DialogSetting", "\350\275\257\350\247\246\345\217\221", nullptr));
+        radioButton_ExternalThird->setText(QCoreApplication::translate("DialogSetting", "\347\241\254\350\247\246\345\217\221", nullptr));
         pushButton_OpenThird->setText(QCoreApplication::translate("DialogSetting", "\346\211\223\345\274\200\347\233\270\346\234\272", nullptr));
         pushButton_TriggerThird->setText(QCoreApplication::translate("DialogSetting", "\350\247\246\345\217\221\344\270\200\346\254\241", nullptr));
         checkBox_SaveNG_Third->setText(QCoreApplication::translate("DialogSetting", "\344\277\235\345\255\230NG", nullptr));

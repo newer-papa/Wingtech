@@ -407,7 +407,7 @@ color: rgb(85, 0, 255);</string>
            </widget>
           </item>
           <item row="1" column="2">
-           <widget class="QRadioButton" name="radioButton_FreeFirst_4">
+           <widget class="QRadioButton" name="radioButton_FreeSecond">
             <property name="text">
              <string>自由采集</string>
             </property>
@@ -434,14 +434,14 @@ color: rgb(85, 0, 255);</string>
            </widget>
           </item>
           <item row="1" column="5" colspan="2">
-           <widget class="QRadioButton" name="radioButton_SoftFirst_4">
+           <widget class="QRadioButton" name="radioButton_SoftSecond">
             <property name="text">
              <string>软触发</string>
             </property>
            </widget>
           </item>
           <item row="1" column="3" colspan="2">
-           <widget class="QRadioButton" name="radioButton_ExternalFirst_4">
+           <widget class="QRadioButton" name="radioButton_ExternalSecond">
             <property name="text">
              <string>硬触发</string>
             </property>
@@ -739,7 +739,7 @@ color: rgb(85, 0, 255);</string>
            </widget>
           </item>
           <item row="1" column="2">
-           <widget class="QRadioButton" name="radioButton_FreeFirst_5">
+           <widget class="QRadioButton" name="radioButton_FreeThird">
             <property name="text">
              <string>自由采集</string>
             </property>
@@ -766,14 +766,14 @@ color: rgb(85, 0, 255);</string>
            </widget>
           </item>
           <item row="1" column="5" colspan="2">
-           <widget class="QRadioButton" name="radioButton_SoftFirst_5">
+           <widget class="QRadioButton" name="radioButton_SoftThird">
             <property name="text">
              <string>软触发</string>
             </property>
            </widget>
           </item>
           <item row="1" column="3" colspan="2">
-           <widget class="QRadioButton" name="radioButton_ExternalFirst_5">
+           <widget class="QRadioButton" name="radioButton_ExternalThird">
             <property name="text">
              <string>硬触发</string>
             </property>
