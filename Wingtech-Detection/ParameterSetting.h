@@ -43,6 +43,11 @@ private:
 	void ShowErrorMsg(QString Message, int nErrorNum) ;
     void getCameraParams();
 
+	void InitFirstGroup();
+	void InitSecondGroup();
+	void InitThirdtGroup();
+	void InitFourthGroup();
+
 private slots:
 	//void ReceivaAlgoImage( Mat OriginalImage, e_CameraType type, int Time,bool bok);
 	void OpenFirstCamera();
@@ -50,6 +55,17 @@ private slots:
 	void LoadFirstImage();
 	void SwitchFirstCameraStatus(int index, bool checked);
     void SaveCameraParams1();
+
+	void OpenSecondCamera();
+	void LoadSecondImage();
+	void SwitchSecondCameraStatus(int index, bool checked);
+
+	void OpenThirdCamera();
+	void SwitchThirdCameraStatus(int index, bool checked);
+
+	void OpenFourthCamera();
+	void SwitchFourthCameraStatus(int index, bool checked);
+
 signals:
 	void SendAlgoImageToMainWindow( Mat OriginalImage, e_CameraType type,int index, bool bok);
 private:
@@ -59,10 +75,16 @@ private:
 	s_CameraInfo m_ThirdCameraInfo;
 	s_CameraInfo m_FourCameraInfo;
 	QButtonGroup *m_FirstGroup;
+	QButtonGroup *m_SecondGroup;
+	QButtonGroup *m_ThirdGroup;
+	QButtonGroup *m_FourthGroup;
 	MV_CC_DEVICE_INFO_LIST m_stDevList;
 	bool m_bFirstAlgoSuccess;
 	Mat m_FirstOriginalImage;
 	Mat m_FirstRenderImage;
+
+	Mat m_SecondOriginalImage;
+	Mat m_SecondRenderImage;
 
     // ch:∆ÿπ‚ ±º‰ | en:Exposure Time
     double m_dExposureEdit{0.0};

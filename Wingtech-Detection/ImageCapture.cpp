@@ -110,7 +110,30 @@ void CImageCapture::run()
 						emit SendAlgoImage(curImage, m_Type, GrabIndex, bok);
 						GrabIndex++;
 						Sleep(200);
+					}
 
+					if (m_Type == CAMERA_SECOND)
+					{
+						bool bok = 0;
+						emit SendAlgoImage(curImage, m_Type, GrabIndex, bok);
+						GrabIndex++;
+						Sleep(200);
+					}
+
+					if (m_Type == CAMERA_THIRD)
+					{
+						bool bok = 0;
+						emit SendAlgoImage(curImage, m_Type, GrabIndex, bok);
+						GrabIndex++;
+						Sleep(200);
+					}
+
+					if (m_Type == CAMERA_FOURTH)
+					{
+						bool bok = 0;
+						emit SendAlgoImage(curImage, m_Type, GrabIndex, bok);
+						GrabIndex++;
+						Sleep(200);
 					}
 				}
 			}

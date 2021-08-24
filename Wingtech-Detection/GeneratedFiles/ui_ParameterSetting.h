@@ -41,10 +41,10 @@ public:
     QCheckBox *checkBox_RenderSecond;
     QGroupBox *groupBox_8;
     QGridLayout *gridLayout_9;
-    QLabel *label_FirstResult_3;
-    QLabel *label_FirstTime_3;
-    MyLabel *label_FirstImage_3;
-    QCheckBox *checkBox_RenderFirst_3;
+    QLabel *label_ThirdResult;
+    QLabel *label_ThirdTime;
+    MyLabel *label_ThirdImage;
+    QCheckBox *checkBox_RenderThird;
     QTabWidget *tabWidget;
     QWidget *tab;
     QGridLayout *gridLayout_26;
@@ -185,16 +185,16 @@ public:
     QCheckBox *checkBox_RenderFirst;
     QGroupBox *groupBox_9;
     QGridLayout *gridLayout_10;
-    QLabel *label_SecondResult_2;
-    MyLabel *label_SecondImage_2;
-    QLabel *label_SecondTime_2;
-    QCheckBox *checkBox_RenderSecond_2;
+    QLabel *label_FourthResult;
+    MyLabel *label_FourthImage;
+    QLabel *label_FourthTime;
+    QCheckBox *checkBox_RenderThird_2;
 
     void setupUi(QDialog *DialogSetting)
     {
         if (DialogSetting->objectName().isEmpty())
             DialogSetting->setObjectName(QString::fromUtf8("DialogSetting"));
-        DialogSetting->resize(1540, 1049);
+        DialogSetting->resize(1660, 1174);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/CMainWindow/Resources/settings.png"), QSize(), QIcon::Normal, QIcon::Off);
         DialogSetting->setWindowIcon(icon);
@@ -243,35 +243,35 @@ public:
         groupBox_8->setObjectName(QString::fromUtf8("groupBox_8"));
         gridLayout_9 = new QGridLayout(groupBox_8);
         gridLayout_9->setObjectName(QString::fromUtf8("gridLayout_9"));
-        label_FirstResult_3 = new QLabel(groupBox_8);
-        label_FirstResult_3->setObjectName(QString::fromUtf8("label_FirstResult_3"));
-        label_FirstResult_3->setMinimumSize(QSize(151, 0));
-        label_FirstResult_3->setMaximumSize(QSize(151, 51));
-        label_FirstResult_3->setStyleSheet(QString::fromUtf8("image: url(:/CMainWindow/Resources/OK.svg);"));
+        label_ThirdResult = new QLabel(groupBox_8);
+        label_ThirdResult->setObjectName(QString::fromUtf8("label_ThirdResult"));
+        label_ThirdResult->setMinimumSize(QSize(151, 0));
+        label_ThirdResult->setMaximumSize(QSize(151, 51));
+        label_ThirdResult->setStyleSheet(QString::fromUtf8("image: url(:/CMainWindow/Resources/OK.svg);"));
 
-        gridLayout_9->addWidget(label_FirstResult_3, 0, 2, 1, 1);
+        gridLayout_9->addWidget(label_ThirdResult, 0, 2, 1, 1);
 
-        label_FirstTime_3 = new QLabel(groupBox_8);
-        label_FirstTime_3->setObjectName(QString::fromUtf8("label_FirstTime_3"));
-        label_FirstTime_3->setMinimumSize(QSize(241, 0));
-        label_FirstTime_3->setMaximumSize(QSize(241, 51));
-        label_FirstTime_3->setStyleSheet(QString::fromUtf8("background-color: rgb(85, 255, 255);\n"
+        label_ThirdTime = new QLabel(groupBox_8);
+        label_ThirdTime->setObjectName(QString::fromUtf8("label_ThirdTime"));
+        label_ThirdTime->setMinimumSize(QSize(241, 0));
+        label_ThirdTime->setMaximumSize(QSize(241, 51));
+        label_ThirdTime->setStyleSheet(QString::fromUtf8("background-color: rgb(85, 255, 255);\n"
 "color: rgb(85, 0, 255);"));
 
-        gridLayout_9->addWidget(label_FirstTime_3, 0, 0, 1, 1);
+        gridLayout_9->addWidget(label_ThirdTime, 0, 0, 1, 1);
 
-        label_FirstImage_3 = new MyLabel(groupBox_8);
-        label_FirstImage_3->setObjectName(QString::fromUtf8("label_FirstImage_3"));
-        label_FirstImage_3->setStyleSheet(QString::fromUtf8("background-image: url(:/CMainWindow/Resources/background.png);"));
+        label_ThirdImage = new MyLabel(groupBox_8);
+        label_ThirdImage->setObjectName(QString::fromUtf8("label_ThirdImage"));
+        label_ThirdImage->setStyleSheet(QString::fromUtf8("background-image: url(:/CMainWindow/Resources/background.png);"));
 
-        gridLayout_9->addWidget(label_FirstImage_3, 1, 0, 1, 3);
+        gridLayout_9->addWidget(label_ThirdImage, 1, 0, 1, 3);
 
-        checkBox_RenderFirst_3 = new QCheckBox(groupBox_8);
-        checkBox_RenderFirst_3->setObjectName(QString::fromUtf8("checkBox_RenderFirst_3"));
-        checkBox_RenderFirst_3->setMaximumSize(QSize(16777215, 51));
-        checkBox_RenderFirst_3->setChecked(true);
+        checkBox_RenderThird = new QCheckBox(groupBox_8);
+        checkBox_RenderThird->setObjectName(QString::fromUtf8("checkBox_RenderThird"));
+        checkBox_RenderThird->setMaximumSize(QSize(16777215, 51));
+        checkBox_RenderThird->setChecked(true);
 
-        gridLayout_9->addWidget(checkBox_RenderFirst_3, 0, 1, 1, 1);
+        gridLayout_9->addWidget(checkBox_RenderThird, 0, 1, 1, 1);
 
 
         gridLayout_2->addWidget(groupBox_8, 1, 1, 1, 1);
@@ -1016,35 +1016,35 @@ public:
         groupBox_9->setObjectName(QString::fromUtf8("groupBox_9"));
         gridLayout_10 = new QGridLayout(groupBox_9);
         gridLayout_10->setObjectName(QString::fromUtf8("gridLayout_10"));
-        label_SecondResult_2 = new QLabel(groupBox_9);
-        label_SecondResult_2->setObjectName(QString::fromUtf8("label_SecondResult_2"));
-        label_SecondResult_2->setMinimumSize(QSize(151, 0));
-        label_SecondResult_2->setMaximumSize(QSize(151, 51));
-        label_SecondResult_2->setStyleSheet(QString::fromUtf8("image: url(:/CMainWindow/Resources/OK.svg);"));
+        label_FourthResult = new QLabel(groupBox_9);
+        label_FourthResult->setObjectName(QString::fromUtf8("label_FourthResult"));
+        label_FourthResult->setMinimumSize(QSize(151, 0));
+        label_FourthResult->setMaximumSize(QSize(151, 51));
+        label_FourthResult->setStyleSheet(QString::fromUtf8("image: url(:/CMainWindow/Resources/OK.svg);"));
 
-        gridLayout_10->addWidget(label_SecondResult_2, 0, 2, 1, 1);
+        gridLayout_10->addWidget(label_FourthResult, 0, 2, 1, 1);
 
-        label_SecondImage_2 = new MyLabel(groupBox_9);
-        label_SecondImage_2->setObjectName(QString::fromUtf8("label_SecondImage_2"));
-        label_SecondImage_2->setStyleSheet(QString::fromUtf8("background-image: url(:/CMainWindow/Resources/background.png);"));
+        label_FourthImage = new MyLabel(groupBox_9);
+        label_FourthImage->setObjectName(QString::fromUtf8("label_FourthImage"));
+        label_FourthImage->setStyleSheet(QString::fromUtf8("background-image: url(:/CMainWindow/Resources/background.png);"));
 
-        gridLayout_10->addWidget(label_SecondImage_2, 1, 0, 1, 3);
+        gridLayout_10->addWidget(label_FourthImage, 1, 0, 1, 3);
 
-        label_SecondTime_2 = new QLabel(groupBox_9);
-        label_SecondTime_2->setObjectName(QString::fromUtf8("label_SecondTime_2"));
-        label_SecondTime_2->setMinimumSize(QSize(241, 0));
-        label_SecondTime_2->setMaximumSize(QSize(241, 51));
-        label_SecondTime_2->setStyleSheet(QString::fromUtf8("background-color: rgb(85, 255, 255);\n"
+        label_FourthTime = new QLabel(groupBox_9);
+        label_FourthTime->setObjectName(QString::fromUtf8("label_FourthTime"));
+        label_FourthTime->setMinimumSize(QSize(241, 0));
+        label_FourthTime->setMaximumSize(QSize(241, 51));
+        label_FourthTime->setStyleSheet(QString::fromUtf8("background-color: rgb(85, 255, 255);\n"
 "color: rgb(85, 0, 255);"));
 
-        gridLayout_10->addWidget(label_SecondTime_2, 0, 0, 1, 1);
+        gridLayout_10->addWidget(label_FourthTime, 0, 0, 1, 1);
 
-        checkBox_RenderSecond_2 = new QCheckBox(groupBox_9);
-        checkBox_RenderSecond_2->setObjectName(QString::fromUtf8("checkBox_RenderSecond_2"));
-        checkBox_RenderSecond_2->setMaximumSize(QSize(16777215, 51));
-        checkBox_RenderSecond_2->setChecked(true);
+        checkBox_RenderThird_2 = new QCheckBox(groupBox_9);
+        checkBox_RenderThird_2->setObjectName(QString::fromUtf8("checkBox_RenderThird_2"));
+        checkBox_RenderThird_2->setMaximumSize(QSize(16777215, 51));
+        checkBox_RenderThird_2->setChecked(true);
 
-        gridLayout_10->addWidget(checkBox_RenderSecond_2, 0, 1, 1, 1);
+        gridLayout_10->addWidget(checkBox_RenderThird_2, 0, 1, 1, 1);
 
 
         gridLayout_2->addWidget(groupBox_9, 1, 2, 1, 1);
@@ -1058,6 +1058,9 @@ public:
         QObject::connect(pushButton_OpenFirst, SIGNAL(clicked()), DialogSetting, SLOT(OpenFirstCamera()));
         QObject::connect(pushButton_LoadFirstImage, SIGNAL(clicked()), DialogSetting, SLOT(LoadFirstImage()));
         QObject::connect(pushButton_SaveParams, SIGNAL(clicked()), DialogSetting, SLOT(SaveCameraParams1()));
+        QObject::connect(pushButton_OpenSecond, SIGNAL(clicked()), DialogSetting, SLOT(OpenSecondCamera()));
+        QObject::connect(pushButton_OpenThird, SIGNAL(clicked()), label_ThirdImage, SLOT(OpenThirdCamera()));
+        QObject::connect(pushButton_OpenFourth, SIGNAL(clicked()), label_FourthImage, SLOT(OpenFourthCamera()));
 
         tabWidget->setCurrentIndex(0);
 
@@ -1074,10 +1077,10 @@ public:
         label_SecondTime->setText(QCoreApplication::translate("DialogSetting", "\350\200\227\346\227\266\357\274\232", nullptr));
         checkBox_RenderSecond->setText(QCoreApplication::translate("DialogSetting", "\346\270\262\346\237\223\345\233\276", nullptr));
         groupBox_8->setTitle(QCoreApplication::translate("DialogSetting", "\344\270\200\345\267\245\344\275\215", nullptr));
-        label_FirstResult_3->setText(QString());
-        label_FirstTime_3->setText(QCoreApplication::translate("DialogSetting", "\350\200\227\346\227\266\357\274\232", nullptr));
-        label_FirstImage_3->setText(QString());
-        checkBox_RenderFirst_3->setText(QCoreApplication::translate("DialogSetting", "\346\270\262\346\237\223\345\233\276", nullptr));
+        label_ThirdResult->setText(QString());
+        label_ThirdTime->setText(QCoreApplication::translate("DialogSetting", "\350\200\227\346\227\266\357\274\232", nullptr));
+        label_ThirdImage->setText(QString());
+        checkBox_RenderThird->setText(QCoreApplication::translate("DialogSetting", "\346\270\262\346\237\223\345\233\276", nullptr));
         groupBox_Frist->setTitle(QCoreApplication::translate("DialogSetting", "\344\270\200\345\267\245\344\275\215-\347\233\270\346\234\272\345\217\202\346\225\260", nullptr));
         label_First->setText(QCoreApplication::translate("DialogSetting", "\347\233\270\346\234\272\345\220\215\347\247\260", nullptr));
         radioButton_FreeFirst->setText(QCoreApplication::translate("DialogSetting", "\350\207\252\347\224\261\351\207\207\351\233\206", nullptr));
@@ -1195,10 +1198,10 @@ public:
         label_FirstImage->setText(QString());
         checkBox_RenderFirst->setText(QCoreApplication::translate("DialogSetting", "\346\270\262\346\237\223\345\233\276", nullptr));
         groupBox_9->setTitle(QCoreApplication::translate("DialogSetting", "\344\272\214\345\267\245\344\275\215", nullptr));
-        label_SecondResult_2->setText(QString());
-        label_SecondImage_2->setText(QString());
-        label_SecondTime_2->setText(QCoreApplication::translate("DialogSetting", "\350\200\227\346\227\266\357\274\232", nullptr));
-        checkBox_RenderSecond_2->setText(QCoreApplication::translate("DialogSetting", "\346\270\262\346\237\223\345\233\276", nullptr));
+        label_FourthResult->setText(QString());
+        label_FourthImage->setText(QString());
+        label_FourthTime->setText(QCoreApplication::translate("DialogSetting", "\350\200\227\346\227\266\357\274\232", nullptr));
+        checkBox_RenderThird_2->setText(QCoreApplication::translate("DialogSetting", "\346\270\262\346\237\223\345\233\276", nullptr));
     } // retranslateUi
 
 };

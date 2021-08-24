@@ -18,6 +18,28 @@ CParameterSetting::~CParameterSetting()
 	{
 		CloseDevice(1);
 	}
+
+	m_SecondCameraInfo.ImageCapture->StopThread();
+	m_SecondCameraInfo.ImageCapture->wait(1000);
+	if (m_SecondCameraInfo.bOpenCamera)
+	{
+		CloseDevice(2);
+	}
+
+	m_ThirdCameraInfo.ImageCapture->StopThread();
+	m_ThirdCameraInfo.ImageCapture->wait(1000);
+	if (m_ThirdCameraInfo.bOpenCamera)
+	{
+		CloseDevice(3);
+	}
+
+	m_FourCameraInfo.ImageCapture->StopThread();
+	m_FourCameraInfo.ImageCapture->wait(1000);
+	if (m_FourCameraInfo.bOpenCamera)
+	{
+		CloseDevice(4);
+	}
+
 	qDebug() << "~CParameterSetting";
 }
 
@@ -25,48 +47,154 @@ void CParameterSetting::InitVariables()
 {
 	//初始化
 	m_FirstCameraInfo.Init();
-	//m_SecondCameraInfo.Init();
-	//m_ThirdCameraInfo.Init();
-	//m_FourCameraInfo.Init();
+	m_SecondCameraInfo.Init();
+	m_ThirdCameraInfo.Init();
+	m_FourCameraInfo.Init();
 
 	//开启线程
 	m_FirstCameraInfo.ImageCapture->start();
-	//m_SecondCameraInfo.ImageCapture->start();
-	//m_ThirdCameraInfo.ImageCapture->start();
-	//m_FourCameraInfo.ImageCapture->start();
+	m_SecondCameraInfo.ImageCapture->start();
+	m_ThirdCameraInfo.ImageCapture->start();
+	m_FourCameraInfo.ImageCapture->start();
 
+	InitFirstGroup();
+	InitSecondGroup();
+	InitThirdtGroup();
+	InitFourthGroup();
+
+	m_FirstCameraInfo.ImageCapture->SetSystemType(CAMERA_FIRST);
+	m_SecondCameraInfo.ImageCapture->SetSystemType(CAMERA_SECOND);
+	m_ThirdCameraInfo.ImageCapture->SetSystemType(CAMERA_THIRD);
+	m_FourCameraInfo.ImageCapture->SetSystemType(CAMERA_FOURTH);
+	QString errMsg;
+	//m_bFirstAlgoSuccess = CAlgoFirstStation::GetInstance()->InitAlgo(errMsg); //初始化模型
+
+}
+//初始化触发模式
+void CParameterSetting::InitFirstGroup()
+{
 	m_FirstGroup = new QButtonGroup();
 	m_FirstGroup->addButton(ui.radioButton_FreeFirst, 1);
 	m_FirstGroup->addButton(ui.radioButton_ExternalFirst, 2);
 	m_FirstGroup->addButton(ui.radioButton_SoftFirst, 3);
 	SetButtonGroupEnabled(false, 1);
-
-	m_FirstCameraInfo.ImageCapture->SetSystemType(CAMERA_FIRST);
-	QString errMsg;
-	//m_bFirstAlgoSuccess = CAlgoFirstStation::GetInstance()->InitAlgo(errMsg); //初始化模型
-
 }
 
+void CParameterSetting::InitSecondGroup()
+{
+	m_SecondGroup = new QButtonGroup();
+	m_SecondGroup->addButton(ui.radioButton_FreeSecond, 1);
+	m_SecondGroup->addButton(ui.radioButton_ExternalSecond, 2);
+	m_SecondGroup->addButton(ui.radioButton_SoftSecond, 3);
+	SetButtonGroupEnabled(false, 2);
+}
+
+void CParameterSetting::InitThirdtGroup()
+{
+	m_ThirdGroup = new QButtonGroup();
+	m_ThirdGroup->addButton(ui.radioButton_FreeThird, 1);
+	m_ThirdGroup->addButton(ui.radioButton_ExternalThird, 2);
+	m_ThirdGroup->addButton(ui.radioButton_SoftThird, 3);
+	SetButtonGroupEnabled(false, 3);
+}
+
+void CParameterSetting::InitFourthGroup()
+{
+	m_FourthGroup = new QButtonGroup();
+	m_FourthGroup->addButton(ui.radioButton_FreeFourth, 1);
+	m_FourthGroup->addButton(ui.radioButton_ExternalFourth, 2);
+	m_FourthGroup->addButton(ui.radioButton_SoftFourth, 3);
+	SetButtonGroupEnabled(false, 4);
+}
+
+//关闭设备
 bool CParameterSetting::CloseDevice(int index)
 {
-	m_FirstCameraInfo.ImageCapture->SetCameraStatus(false);
-	int nRet = m_FirstCameraInfo.CameraHandle.StopGrabbing();
-	if (nRet != MV_OK)
+	if (1 == index)
 	{
-		QMessageBox::information(this, QString::fromLocal8Bit("错误"), "Frist Camera StopGrabbing failed:" + QString::number(nRet));
-		return false;
+		m_FirstCameraInfo.ImageCapture->SetCameraStatus(false);
+		int nRet = m_FirstCameraInfo.CameraHandle.StopGrabbing();
+		if (nRet != MV_OK)
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("错误"), "Frist Camera StopGrabbing failed:" + QString::number(nRet));
+			return false;
+		}
+		nRet = m_FirstCameraInfo.CameraHandle.Close();
+		if (nRet == MV_OK)
+		{
+			m_FirstCameraInfo.bOpenCamera = false;
+			return true;
+		}
+		else
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("错误"), "close first device failed:" + QString::number(nRet));
+			return false;
+		}
 	}
-	nRet = m_FirstCameraInfo.CameraHandle.Close();
-	if (nRet == MV_OK)
+	else if (2 == index)
 	{
-		m_FirstCameraInfo.bOpenCamera = false;
-		return true;
+		m_SecondCameraInfo.ImageCapture->SetCameraStatus(false);
+		int nRet = m_SecondCameraInfo.CameraHandle.StopGrabbing();
+		if (nRet != MV_OK)
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("错误"), "Frist Camera StopGrabbing failed:" + QString::number(nRet));
+			return false;
+		}
+		nRet = m_SecondCameraInfo.CameraHandle.Close();
+		if (nRet == MV_OK)
+		{
+			m_SecondCameraInfo.bOpenCamera = false;
+			return true;
+		}
+		else
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("错误"), "close first device failed:" + QString::number(nRet));
+			return false;
+		}
 	}
-	else
+	else if (3 == index)
 	{
-		QMessageBox::information(this, QString::fromLocal8Bit("错误"), "close first device failed:" + QString::number(nRet));
-		return false;
+		m_ThirdCameraInfo.ImageCapture->SetCameraStatus(false);
+		int nRet = m_ThirdCameraInfo.CameraHandle.StopGrabbing();
+		if (nRet != MV_OK)
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("错误"), "Frist Camera StopGrabbing failed:" + QString::number(nRet));
+			return false;
+		}
+		nRet = m_ThirdCameraInfo.CameraHandle.Close();
+		if (nRet == MV_OK)
+		{
+			m_ThirdCameraInfo.bOpenCamera = false;
+			return true;
+		}
+		else
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("错误"), "close first device failed:" + QString::number(nRet));
+			return false;
+		}
 	}
+	else if (4 == index)
+	{
+		m_FourCameraInfo.ImageCapture->SetCameraStatus(false);
+		int nRet = m_FourCameraInfo.CameraHandle.StopGrabbing();
+		if (nRet != MV_OK)
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("错误"), "Frist Camera StopGrabbing failed:" + QString::number(nRet));
+			return false;
+		}
+		nRet = m_FourCameraInfo.CameraHandle.Close();
+		if (nRet == MV_OK)
+		{
+			m_FourCameraInfo.bOpenCamera = false;
+			return true;
+		}
+		else
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("错误"), "close first device failed:" + QString::number(nRet));
+			return false;
+		}
+	}
+
 }
 
 void CParameterSetting::InitConnections()
@@ -75,7 +203,9 @@ void CParameterSetting::InitConnections()
 	qRegisterMetaType<e_CameraType>("e_CameraType");
 	connect(m_FirstCameraInfo.ImageCapture, SIGNAL(SendAlgoImage(Mat, e_CameraType,int,bool)), this, SLOT(ReceivaAlgoImage( Mat, e_CameraType,int,bool)));
 	connect(m_FirstGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(SwitchFirstCameraStatus(int, bool)));
-    //connect(ui.pushButton_SaveParams, SIGNAL(clicked()), this, SLOT(SaveCameraParams1()));
+	connect(m_SecondCameraInfo.ImageCapture, SIGNAL(SendAlgoImage(Mat, e_CameraType, int, bool)), this, SLOT(ReceivaAlgoImage(Mat, e_CameraType, int, bool)));
+	connect(m_SecondGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(SwitchSecondCameraStatus(int, bool)));
+
 }
 
 void CParameterSetting::InitCamera()
@@ -91,14 +221,16 @@ void CParameterSetting::InitCamera()
 		return;
 	}
 	ui.pushButton_OpenFirst->setEnabled(m_stDevList.nDeviceNum > 0);
+	ui.pushButton_OpenSecond->setEnabled(m_stDevList.nDeviceNum > 0);
 	for (int i = 0; i < m_stDevList.nDeviceNum; ++i)
 	{
 		MV_CC_DEVICE_INFO* pDeviceInfo = m_stDevList.pDeviceInfo[i];
 		char strUserName[256] = { 0 };
 		sprintf_s(strUserName, "%s-%s_%s", pDeviceInfo->SpecialInfo.stGigEInfo.chUserDefinedName, pDeviceInfo->SpecialInfo.stGigEInfo.chModelName,
-			pDeviceInfo->SpecialInfo.stGigEInfo.chSerialNumber);
+				  pDeviceInfo->SpecialInfo.stGigEInfo.chSerialNumber);
 		QString UserName = QString::fromLocal8Bit(strUserName);
 		ui.comboBox_First->addItem(UserName);
+		ui.comboBox_Second->addItem(UserName);
 		qDebug() << "CameraName;" << strUserName;
 		printf("Find Camera:%s\n", strUserName);
 	}
@@ -151,7 +283,7 @@ void CParameterSetting::LoadFirstImage()
 void CParameterSetting::SwitchFirstCameraStatus(int index, bool checked)
 {
 	qDebug() << "SwitchFirstCameraStatus:" << index;
-	printf("SwitchFirstCameraStatus:%d\n", index);
+
 	if (checked)
 	{
 		ui.pushButton_TriggerFirst->setEnabled(false);
@@ -173,6 +305,80 @@ void CParameterSetting::SwitchFirstCameraStatus(int index, bool checked)
 	}
 }
 
+void CParameterSetting::SwitchSecondCameraStatus(int index, bool checked)
+{
+	qDebug() << "SwitchSecondCameraStatus:" << index;
+
+	if (checked)
+	{
+		ui.pushButton_TriggerSecond->setEnabled(false);
+		switch (index)
+		{
+		case 1:
+			m_SecondCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_OFF);
+			break;
+		case 2:
+			m_SecondCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_ON);
+			m_SecondCameraInfo.CameraHandle.SetEnumValue("TriggerSource", MV_TRIGGER_SOURCE_LINE0);
+			break;
+		case 3:
+			m_SecondCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_ON);
+			m_SecondCameraInfo.CameraHandle.SetEnumValue("TriggerSource", MV_TRIGGER_SOURCE_SOFTWARE);
+			ui.pushButton_TriggerSecond->setEnabled(true);
+			break;
+		}
+	}
+}
+
+void CParameterSetting::SwitchThirdCameraStatus(int index, bool checked)
+{
+	qDebug() << "SwitchThirdCameraStatus:" << index;
+	printf("SwitchThirdCameraStatus:%d\n", index);
+	if (checked)
+	{
+		ui.pushButton_TriggerThird->setEnabled(false);
+		switch (index)
+		{
+		case 1:
+			m_ThirdCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_OFF);
+			break;
+		case 2:
+			m_ThirdCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_ON);
+			m_ThirdCameraInfo.CameraHandle.SetEnumValue("TriggerSource", MV_TRIGGER_SOURCE_LINE0);
+			break;
+		case 3:
+			m_ThirdCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_ON);
+			m_ThirdCameraInfo.CameraHandle.SetEnumValue("TriggerSource", MV_TRIGGER_SOURCE_SOFTWARE);
+			ui.pushButton_TriggerThird->setEnabled(true);
+			break;
+		}
+	}
+}
+
+void CParameterSetting::SwitchFourthCameraStatus(int index, bool checked)
+{
+	qDebug() << "SwitchFourthCameraStatus:" << index;
+	printf("SwitchFourthCameraStatus:%d\n", index);
+	if (checked)
+	{
+		ui.pushButton_TriggerFourth->setEnabled(false);
+		switch (index)
+		{
+		case 1:
+			m_FourCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_OFF);
+			break;
+		case 2:
+			m_FourCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_ON);
+			m_FourCameraInfo.CameraHandle.SetEnumValue("TriggerSource", MV_TRIGGER_SOURCE_LINE0);
+			break;
+		case 3:
+			m_FourCameraInfo.CameraHandle.SetEnumValue("TriggerMode", MV_TRIGGER_MODE_ON);
+			m_FourCameraInfo.CameraHandle.SetEnumValue("TriggerSource", MV_TRIGGER_SOURCE_SOFTWARE);
+			ui.pushButton_TriggerFourth->setEnabled(true);
+			break;
+		}
+	}
+}
 void CParameterSetting::SetButtonGroupEnabled(bool enabled, int index)
 {
 	if (index == 1)
@@ -378,7 +584,7 @@ void CParameterSetting::StartDetecion(bool bStart)
 	if (bStart)
 	{
 		m_FirstCameraInfo.ImageCapture->SetSystemType(CAMERA_FIRST);
-		//m_SecondCameraInfo.ImageCapture->SetSystemType(CAMERA_FIRST);
+		m_SecondCameraInfo.ImageCapture->SetSystemType(CAMERA_FIRST);
 	}
 	else
 	{
@@ -392,7 +598,7 @@ void CParameterSetting::StartDetecion(bool bStart)
 void CParameterSetting::OpenFirstCamera()
 {
 	qDebug() << "open first camera";
-	printf("open first camera\n");
+
 	QString name = ui.comboBox_First->currentText();
 	int index = ui.comboBox_First->currentIndex();
 	if (m_FirstCameraInfo.bOpenCamera)
@@ -434,6 +640,195 @@ void CParameterSetting::OpenFirstCamera()
 			ui.radioButton_SoftFirst->setChecked(false);
 			ui.pushButton_TriggerFirst->setEnabled(false);
 			ui.pushButton_OpenFirst->setText(QString::fromLocal8Bit("关闭相机"));
+		}
+	}
+}
+
+
+void CParameterSetting::LoadSecondImage()
+{
+	//if (m_bFirstAlgoSuccess)
+	if (1)
+	{
+		QString imagePath = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("图像文件"), "", "*.bmp;*.jpg;*.png;;All Files(*)");
+		if (imagePath.isEmpty())
+		{
+			return;
+		}
+		qDebug() << "load first image:" << imagePath;
+		QByteArray ba = imagePath.toLocal8Bit();
+		char *file = ba.data();
+		m_SecondOriginalImage = imread(file);
+		vector<int>Threshold;
+		m_SecondRenderImage.create(m_SecondOriginalImage.rows, m_SecondOriginalImage.cols, m_SecondOriginalImage.type());
+		QImage qImage;
+		if (ui.checkBox_RenderSecond->isChecked())
+		{
+			qImage = MattoQImage(m_SecondRenderImage);
+		}
+		else
+		{
+			qImage = MattoQImage(m_SecondOriginalImage);
+		}
+		QString style;
+		//if (AlgoRunData.bOK)
+		//{
+		//	style = "image: url(:/CMainWindow/Resources/OK.svg);";
+		//}
+		//else
+		//{
+		//	style = "image: url(:/CMainWindow/Resources/NG.svg);";
+		//}
+		ui.label_SecondTime->setText(QString::fromLocal8Bit("耗时:") + QString::number(1) + "ms");
+		ui.label_SecondResult->setStyleSheet(style);
+		ui.label_SecondImage->SetImage(qImage);
+	}
+	else
+	{
+		QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("工位1算法模型未初始化成功"));
+	}
+}
+void CParameterSetting::OpenSecondCamera()
+{
+	qDebug() << "open second camera";
+
+	QString name = ui.comboBox_Second->currentText();
+	int index = ui.comboBox_Second->currentIndex();
+	if (m_SecondCameraInfo.bOpenCamera)
+	{
+		bool rv = CloseDevice(2);
+		if (!rv)
+		{
+			return;
+		}
+		ui.pushButton_OpenSecond->setText(QString::fromLocal8Bit("打开相机"));
+		SetButtonGroupEnabled(false, 2);
+		//ui.pushButton_SaveConfig->setEnabled(false);
+		ui.pushButton_TriggerSecond->setEnabled(false);
+		m_SecondCameraInfo.bOpenCamera = false;
+		m_SecondCameraInfo.CameraName.clear();
+	}
+	else
+	{
+		if (name == m_SecondCameraInfo.CameraName)
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("相机已被占用"));
+			return;
+		}
+		else if (index <= m_stDevList.nDeviceNum)
+		{
+			QString errMsg;
+			m_SecondCameraInfo.bOpenCamera = OpenCamera(*m_stDevList.pDeviceInfo[index], 2);
+			if (!m_SecondCameraInfo.bOpenCamera)
+			{
+				return;
+			}
+			m_SecondCameraInfo.ImageCapture->SetCameraHandle(m_SecondCameraInfo.CameraHandle, 2);
+			m_SecondCameraInfo.ImageCapture->SetCameraStatus(true);
+			m_SecondCameraInfo.CameraName = name;
+			SetButtonGroupEnabled(true, 2);
+			//ui.pushButton_SaveConfig->setEnabled(m_SecondCameraInfo.bOpenCamera);
+			ui.radioButton_FreeSecond->setChecked(false);
+			ui.radioButton_ExternalSecond->setChecked(true);
+			ui.radioButton_SoftSecond->setChecked(false);
+			ui.pushButton_TriggerSecond->setEnabled(false);
+			ui.pushButton_OpenSecond->setText(QString::fromLocal8Bit("关闭相机"));
+		}
+	}
+}
+void CParameterSetting::OpenThirdCamera()
+{
+	qDebug() << "open third camera";
+
+	QString name = ui.comboBox_Third->currentText();
+	int index = ui.comboBox_Third->currentIndex();
+	if (m_ThirdCameraInfo.bOpenCamera)
+	{
+		bool rv = CloseDevice(3);
+		if (!rv)
+		{
+			return;
+		}
+		ui.pushButton_OpenThird->setText(QString::fromLocal8Bit("打开相机"));
+		SetButtonGroupEnabled(false, 3);
+		//ui.pushButton_SaveConfig->setEnabled(false);
+		ui.pushButton_TriggerThird->setEnabled(false);
+		m_ThirdCameraInfo.bOpenCamera = false;
+		m_ThirdCameraInfo.CameraName.clear();
+	}
+	else
+	{
+		if (name == m_ThirdCameraInfo.CameraName)
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("相机已被占用"));
+			return;
+		}
+		else if (index <= m_stDevList.nDeviceNum)
+		{
+			QString errMsg;
+			m_ThirdCameraInfo.bOpenCamera = OpenCamera(*m_stDevList.pDeviceInfo[index], 3);
+			if (!m_ThirdCameraInfo.bOpenCamera)
+			{
+				return;
+			}
+			m_ThirdCameraInfo.ImageCapture->SetCameraHandle(m_ThirdCameraInfo.CameraHandle, 3);
+			m_ThirdCameraInfo.ImageCapture->SetCameraStatus(true);
+			m_ThirdCameraInfo.CameraName = name;
+			SetButtonGroupEnabled(true, 3);
+			//ui.pushButton_SaveConfig->setEnabled(m_SecondCameraInfo.bOpenCamera);
+			ui.radioButton_FreeThird->setChecked(false);
+			ui.radioButton_ExternalThird->setChecked(true);
+			ui.radioButton_SoftThird->setChecked(false);
+			ui.pushButton_TriggerThird->setEnabled(false);
+			ui.pushButton_OpenThird->setText(QString::fromLocal8Bit("关闭相机"));
+		}
+	}
+}
+void CParameterSetting::OpenFourthCamera()
+{
+	qDebug() << "open fourth camera";
+
+	QString name = ui.comboBox_Four->currentText();
+	int index = ui.comboBox_Four->currentIndex();
+	if (m_FourCameraInfo.bOpenCamera)
+	{
+		bool rv = CloseDevice(4);
+		if (!rv)
+		{
+			return;
+		}
+		ui.pushButton_OpenSecond->setText(QString::fromLocal8Bit("打开相机"));
+		SetButtonGroupEnabled(false, 4);
+		//ui.pushButton_SaveConfig->setEnabled(false);
+		ui.pushButton_TriggerSecond->setEnabled(false);
+		m_FourCameraInfo.bOpenCamera = false;
+		m_FourCameraInfo.CameraName.clear();
+	}
+	else
+	{
+		if (name == m_FourCameraInfo.CameraName)
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("相机已被占用"));
+			return;
+		}
+		else if (index <= m_stDevList.nDeviceNum)
+		{
+			QString errMsg;
+			m_FourCameraInfo.bOpenCamera = OpenCamera(*m_stDevList.pDeviceInfo[index], 4);
+			if (!m_FourCameraInfo.bOpenCamera)
+			{
+				return;
+			}
+			m_FourCameraInfo.ImageCapture->SetCameraHandle(m_FourCameraInfo.CameraHandle, 4);
+			m_FourCameraInfo.ImageCapture->SetCameraStatus(true);
+			m_FourCameraInfo.CameraName = name;
+			SetButtonGroupEnabled(true, 4);
+			//ui.pushButton_SaveConfig->setEnabled(m_SecondCameraInfo.bOpenCamera);
+			ui.radioButton_FreeFourth->setChecked(false);
+			ui.radioButton_ExternalFourth->setChecked(true);
+			ui.radioButton_SoftFourth->setChecked(false);
+			ui.pushButton_TriggerFourth->setEnabled(false);
+			ui.pushButton_OpenFourth->setText(QString::fromLocal8Bit("关闭相机"));
 		}
 	}
 }
