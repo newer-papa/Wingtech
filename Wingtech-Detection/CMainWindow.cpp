@@ -485,8 +485,6 @@ void CMainWindow::ReceiveImage(Mat image, e_CameraType type, int index, bool bOK
         case CAMERA_SECOND:
         {
             m_Camera2Images.push_back(QImg);
-			if (m_Camera2Images.size() > 40)
-				return;
             ui.label_Image2->setPixmap(QPixmap::fromImage(
                 QImg.scaled(ui.label_Image2->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation)));
             QLabel *Label = m_Camera2Results.at(index);
@@ -517,8 +515,6 @@ void CMainWindow::ReceiveImage(Mat image, e_CameraType type, int index, bool bOK
         case CAMERA_THIRD:
         {
             m_Camera3Images.push_back(QImg);
-			if (m_Camera3Images.size() > 40)
-				return;
             ui.label_Image3->setPixmap(QPixmap::fromImage(
                 QImg.scaled(ui.label_Image3->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation)));
             QLabel *Label = m_Camera3Results.at(index);
@@ -549,8 +545,6 @@ void CMainWindow::ReceiveImage(Mat image, e_CameraType type, int index, bool bOK
         case CAMERA_FOURTH:
         {
             m_Camera4Images.push_back(QImg);
-			if (m_Camera4Images.size() > 40)
-				return;
             ui.label_Image4->setPixmap(QPixmap::fromImage(
                 QImg.scaled(ui.label_Image4->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation)));
             QLabel *Label = m_Camera4Results.at(index);
@@ -576,7 +570,7 @@ void CMainWindow::ReceiveImage(Mat image, e_CameraType type, int index, bool bOK
                     ProcessDetectionResult();
                 }
             }
-			break;
+     	break;
         }
         break;
         default:;
@@ -591,6 +585,14 @@ void CMainWindow::ProcessDetectionResult()
     for (; it != itEnd; ++it)
     {
         bok &= it.value();
+		if (bok == true)
+		{
+			Msg = Msg+"01";
+		}
+		else
+		{
+			Msg = Msg + "10";
+		}
     }
     bool rv = true;
     if (bok)

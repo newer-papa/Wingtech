@@ -16,10 +16,17 @@ CImageCapture::~CImageCapture()
 {
 }
 
-void CImageCapture::SetSystemType(e_CameraType type)
+void CImageCapture::SetCameraType(e_CameraType type)
 {
 	m_Mutex.lock();
 	m_Type = type;
+	m_Mutex.unlock();
+}
+
+void CImageCapture::SetSystemType(s_SystemType SystemType)
+{
+	m_Mutex.lock();
+	m_SystemType = SystemType;
 	m_Mutex.unlock();
 }
 
@@ -102,14 +109,20 @@ void CImageCapture::run()
 					continue;
 				}
 				Mat curImage = img;// .clone();
+				if (m_SystemType == CAMEREA_TEST)
+				{
+					emit SendCameraImage(curImage, m_Index);
+				}
 				if (bStart)
 				{
 					if (m_Type == CAMERA_FIRST)
 					{
 						bool bok = 0;
-						emit SendAlgoImage(curImage, m_Type, GrabIndex, bok);
+						//emit SendAlgoImage(curImage, m_Type, GrabIndex, bok);
+						emit SendImageToAlgo(curImage, m_Type, GrabIndex, bok);
 						GrabIndex++;
-						Sleep(200);
+						Sleep(2000);
+
 					}
 
 					if (m_Type == CAMERA_SECOND)

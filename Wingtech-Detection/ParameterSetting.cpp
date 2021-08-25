@@ -5,6 +5,7 @@ CParameterSetting::CParameterSetting(QDialog *parent /*= NULL*/)
 {
 	ui.setupUi(this);
 	InitVariables();
+	InitTableWidget();
 	InitConnections();
 	InitCamera();
 }
@@ -39,6 +40,9 @@ CParameterSetting::~CParameterSetting()
 	{
 		CloseDevice(4);
 	}
+	m_SaveImage.StopThread();
+	m_SaveImage.wait(1000);
+
 
 	qDebug() << "~CParameterSetting";
 }
@@ -57,18 +61,63 @@ void CParameterSetting::InitVariables()
 	m_ThirdCameraInfo.ImageCapture->start();
 	m_FourCameraInfo.ImageCapture->start();
 
+	m_FirstAlgo.Init();
+	m_FirstAlgo.Algo->start();
+
 	InitFirstGroup();
 	InitSecondGroup();
 	InitThirdtGroup();
 	InitFourthGroup();
 
-	m_FirstCameraInfo.ImageCapture->SetSystemType(CAMERA_FIRST);
-	m_SecondCameraInfo.ImageCapture->SetSystemType(CAMERA_SECOND);
-	m_ThirdCameraInfo.ImageCapture->SetSystemType(CAMERA_THIRD);
-	m_FourCameraInfo.ImageCapture->SetSystemType(CAMERA_FOURTH);
+
 	QString errMsg;
 	//m_bFirstAlgoSuccess = CAlgoFirstStation::GetInstance()->InitAlgo(errMsg); //初始化模型
+	QRegExp reg("\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
+	ui.comboBox_SystemType->addItem(QString::fromLocal8Bit("在线运行"));
+	ui.comboBox_SystemType->addItem(QString::fromLocal8Bit("相机调试"));
+	ui.comboBox_SystemType->addItem(QString::fromLocal8Bit("在线Debug算法"));
+	ui.comboBox_SystemType->addItem(QString::fromLocal8Bit("离线Debug算法"));
+	
+	m_FirstCameraInfo.ImageCapture->SetSystemType(RUN_ONLINE);
+	m_SecondCameraInfo.ImageCapture->SetSystemType(RUN_ONLINE);
+	m_ThirdCameraInfo.ImageCapture->SetSystemType(RUN_ONLINE);
+	m_FourCameraInfo.ImageCapture->SetSystemType(RUN_ONLINE);
+	ui.lineEdit_IP->setValidator(new QRegExpValidator(reg));
 
+
+
+	m_SaveImage.start();
+}
+void CParameterSetting::InitTableWidget()
+{
+	QFont font("微软雅黑", 12);
+	m_ModelChoice.setSelectionBehavior(QAbstractItemView::SelectRows);                                                   //设置选择行为时每次选择一行
+	m_ModelChoice.setEditTriggers(QAbstractItemView::NoEditTriggers);                                                    //设置不可编辑
+	m_ModelChoice.horizontalHeader()->setDefaultAlignment(Qt::AlignHCenter);
+	m_ModelChoice.horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	m_ModelChoice.horizontalHeader()->setFont(font);                                                                     //设置字体
+	m_ModelChoice.horizontalHeader()->setHighlightSections(false);                                                       //获取焦点
+	m_ModelChoice.verticalHeader()->setHidden(true);
+	m_ModelChoice.horizontalHeader()->setStyleSheet("QHeaderView::section{color:rgb(255,255,255);background:rgb(41,136,41);}"); //设置选中背景色
+	m_ModelChoice.setColumnCount(3);
+	m_ModelChoice.setRowCount(4);
+	// 	m_BoxTab.horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+	// 	m_BoxTab.horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+	QStringList Firstheader;
+	Firstheader << QString::fromLocal8Bit("  照片ID  ") << QString::fromLocal8Bit("  模型  ") << QString::fromLocal8Bit("  选择  ");
+	m_ModelChoice.setHorizontalHeaderLabels(Firstheader);                                                                     //设置表头内容
+
+	//QDockWidget *FirstResult = new QDockWidget(QString::fromLocal8Bit("工位一"));
+	//FirstResult->setMinimumWidth(200);
+	//FirstResult->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+	//addDockWidget(Qt::RightDockWidgetArea, FirstResult);
+	//FirstResult->setWidget(&m_ModelChoice);
+
+	m_ModelChoice.setItem(0, 0, new QTableWidgetItem(QString::fromLocal8Bit("")));
+	m_ModelChoice.setItem(1, 0, new QTableWidgetItem(QString::fromLocal8Bit("")));
+	m_ModelChoice.setItem(2, 0, new QTableWidgetItem(QString::fromLocal8Bit("")));
+	m_ModelChoice.setItem(3, 0, new QTableWidgetItem(QString::fromLocal8Bit("")));
+	m_ModelChoice.show();
 }
 //初始化触发模式
 void CParameterSetting::InitFirstGroup()
@@ -105,6 +154,66 @@ void CParameterSetting::InitFourthGroup()
 	m_FourthGroup->addButton(ui.radioButton_ExternalFourth, 2);
 	m_FourthGroup->addButton(ui.radioButton_SoftFourth, 3);
 	SetButtonGroupEnabled(false, 4);
+}
+
+void CParameterSetting::SaveImage(s_SaveImageInfo ImageInfo)
+{
+	QString CurTime = QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm-ss-zzz");
+	if (ui.checkBox_SaveNG_First->isChecked())
+	{
+		QString NGPath = ui.lineEdit_NGPath_First->text();
+		if (NGPath.isEmpty())
+		{
+			qDebug() << "NG path is empty";
+			return;
+		}
+		QString CurPath = NGPath + "/" + CurTime;
+		QDir dir;
+		if (!dir.exists(CurPath))
+		{
+			dir.mkpath(CurPath);
+		}
+		if (!ImageInfo.FirstStation.bok)
+		{
+			QString OriginalImageName = CurPath + "/1_O.jpg";
+			QString RenderImageName = CurPath + "/1_R.jpg";
+			m_SaveImage.SaveImage(OriginalImageName, ImageInfo.FirstStation.OriginalImage);
+			m_SaveImage.SaveImage(RenderImageName, ImageInfo.FirstStation.RenderImage);
+		}
+		if (!ImageInfo.SecondStation.bok)
+		{
+			QString OriginalImageName = CurPath + "/2_O.jpg";
+			QString RenderImageName = CurPath + "/2_R.jpg";
+			m_SaveImage.SaveImage(OriginalImageName, ImageInfo.SecondStation.OriginalImage);
+			m_SaveImage.SaveImage(RenderImageName, ImageInfo.SecondStation.RenderImage);
+		}
+	}
+
+	if (ui.checkBox_SaveOK_First->isChecked())
+	{
+		QString OKPath = ui.lineEdit_OKPath_First->text();
+		if (OKPath.isEmpty())
+		{
+			qDebug() << "OK path is empty";
+			return;
+		}
+		QString CurPath = OKPath + "/" + CurTime;
+		QDir dir;
+		if (!dir.exists(CurPath))
+		{
+			dir.mkpath(CurPath);
+		}
+		if (ImageInfo.FirstStation.bok)
+		{
+			QString ImageName = CurPath + "/1_O.jpg";
+			m_SaveImage.SaveImage(ImageName, ImageInfo.FirstStation.OriginalImage);
+		}
+		if (ImageInfo.SecondStation.bok)
+		{
+			QString ImageName = CurPath + "/2_O.jpg";
+			m_SaveImage.SaveImage(ImageName, ImageInfo.SecondStation.OriginalImage);
+		}
+	}
 }
 
 //关闭设备
@@ -201,18 +310,17 @@ void CParameterSetting::InitConnections()
 {
 	qRegisterMetaType<Mat>("Mat");
 	qRegisterMetaType<e_CameraType>("e_CameraType");
-	connect(m_FirstCameraInfo.ImageCapture, SIGNAL(SendAlgoImage(Mat, e_CameraType,int,bool)), this, SLOT(ReceivaAlgoImage( Mat, e_CameraType,int,bool)));
+	//connect(m_FirstCameraInfo.ImageCapture, SIGNAL(SendAlgoImage(Mat, e_CameraType,int,bool)), this, SLOT(ReceivaAlgoImage( Mat, e_CameraType,int,bool)));
 	connect(m_FirstGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(SwitchFirstCameraStatus(int, bool)));
-	
-	connect(m_SecondCameraInfo.ImageCapture, SIGNAL(SendAlgoImage(Mat, e_CameraType, int, bool)), this, SLOT(ReceivaAlgoImage(Mat, e_CameraType, int, bool)));
+	//connect(m_SecondCameraInfo.ImageCapture, SIGNAL(SendAlgoImage(Mat, e_CameraType, int, bool)), this, SLOT(ReceivaAlgoImage(Mat, e_CameraType, int, bool)));
 	connect(m_SecondGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(SwitchSecondCameraStatus(int, bool)));
-	
-	connect(m_ThirdCameraInfo.ImageCapture, SIGNAL(SendAlgoImage(Mat, e_CameraType,int,bool)), this, SLOT(ReceivaAlgoImage( Mat, e_CameraType,int,bool)));
-	connect(m_ThirdGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(SwitchThirdCameraStatus(int, bool)));
+    connect(m_FirstCameraInfo.ImageCapture, SIGNAL(SendImageToAlgo(Mat, e_CameraType, int, bool)), m_FirstAlgo.Algo, SLOT(ReceivaReImage(Mat, e_CameraType, int, bool)));
+	connect(m_FirstAlgo.Algo, SIGNAL(SendAlgoImageToParam(Mat, e_CameraType, int, bool)), this, SLOT(ReceivaAlgoImage(Mat, e_CameraType, int, bool)));
+	//connect(m_FirstAlgo.Algo, SIGNAL(SendImageToAlgo(Mat, e_CameraType, int, bool)), m_FirstAlgo.Algo, SLOT(ReceivaAlgoImage(Mat, e_CameraType, int, bool)));
 
-	connect(m_FourCameraInfo.ImageCapture, SIGNAL(SendAlgoImage(Mat, e_CameraType, int, bool)), this, SLOT(ReceivaAlgoImage(Mat, e_CameraType, int, bool)));
-	connect(m_FourthGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(SwitchFourthCameraStatus(int, bool)));
 
+	connect(m_FirstCameraInfo.ImageCapture, SIGNAL(SendCameraImage(Mat, int)), this, SLOT(ReceiveCameraImage(Mat, int)));
+	connect(m_SecondCameraInfo.ImageCapture, SIGNAL(SendCameraImage(Mat, int)), this, SLOT(ReceiveCameraImage(Mat, int)));
 }
 
 void CParameterSetting::InitCamera()
@@ -369,7 +477,6 @@ void CParameterSetting::SaveCameraParams2()
 
 	return;
 }
-
 void CParameterSetting::SwitchThirdCameraStatus(int index, bool checked)
 {
 	qDebug() << "SwitchThirdCameraStatus:" << index;
@@ -448,7 +555,69 @@ void CParameterSetting::SwitchFourthCameraStatus(int index, bool checked)
 		}
 	}
 }
-
+void CParameterSetting::ConnectToPLC()
+{
+	QString ip = ui.lineEdit_IP->text();
+	QString port = ui.lineEdit_Port->text();
+	int Heart = ui.spinBox_Heartbeat->value();
+	if (ip.isEmpty())
+	{
+		QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("PLC地址不能为空"));
+		return;
+	}
+	if (port.isEmpty())
+	{
+		QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("PLC端口不能为空"));
+		return;
+	}
+	CPLCManager::GetInstance()->TcpConnect(ip, port.toUShort(), Heart);
+}
+void CParameterSetting::SendOKToPLC()
+{
+	CPLCManager::GetInstance()->WritePLCData(true);
+}
+void CParameterSetting::SendNGToPLC()
+{
+	CPLCManager::GetInstance()->WritePLCData(false);
+}
+void CParameterSetting::SetSystemType(int index)
+{
+	ui.pushButton_LoadFirstImage->setEnabled(false);
+	ui.pushButton_LoadSecondImage->setEnabled(false);
+	s_SystemType type;
+	if (index == 0)
+	{
+		type = RUN_ONLINE;
+	}
+	else if (index == 1)
+	{
+		type = CAMEREA_TEST;
+	}
+	else if (index == 2)
+	{
+		type = ONLINE_ALGO_TEST;
+	}
+	else if (index == 3)
+	{
+		type = OFFLINE_ALGO_TEST;
+		ui.pushButton_LoadFirstImage->setEnabled(true);
+		ui.pushButton_LoadSecondImage->setEnabled(true);
+	}
+	m_FirstCameraInfo.ImageCapture->SetSystemType(type);
+	m_SecondCameraInfo.ImageCapture->SetSystemType(type);
+}
+void CParameterSetting::ReceiveCameraImage(Mat image, int index)
+{
+	QImage qimage = MattoQImage(image);
+	if (index == 1)
+	{
+		ui.label_FirstImage->SetImage(qimage);
+	}
+	else if (index == 2)
+	{
+		ui.label_SecondImage->SetImage(qimage);
+	}
+}
 void CParameterSetting::SaveCameraParams4()
 {
 	qDebug() << "参数设置buttonParamsSet2";
@@ -477,7 +646,55 @@ void CParameterSetting::SaveCameraParams4()
 
 	return;
 }
+void CParameterSetting::SaveConfig()
+{
+	QString IniPath = QCoreApplication::applicationDirPath() + "/parameter_cfg.ini";
+	CConfig *cfg = new CConfig(IniPath);
+	if (m_FirstCameraInfo.bOpenCamera)
+	{
+		cfg->Write(CAMERA_SECTION, FIRST_CAMERA_NAME, m_FirstCameraInfo.CameraName);
+	}
+	if (m_SecondCameraInfo.bOpenCamera)
+	{
+		cfg->Write(CAMERA_SECTION, SECOND_CAMERA_NAME, m_SecondCameraInfo.CameraName);
+	}
+	if (m_ThirdCameraInfo.bOpenCamera)
+	{
+		cfg->Write(CAMERA_SECTION, FIRST_CAMERA_NAME, m_FirstCameraInfo.CameraName);
+	}
+	if (m_FourCameraInfo.bOpenCamera)
+	{
+		cfg->Write(CAMERA_SECTION, SECOND_CAMERA_NAME, m_SecondCameraInfo.CameraName);
+	}
 
+	bool bchecked = ui.checkBox_SaveNG_First->isChecked();
+	cfg->Write(DATA_SECTION, SAVE_NG, bchecked);
+	QString NGPath = ui.lineEdit_NGPath_First->text();
+	if (bchecked && !NGPath.isEmpty())
+	{
+		cfg->Write(DATA_SECTION, NG_PATH, NGPath);
+	}
+	bchecked = ui.checkBox_SaveOK_Second->isChecked();
+	cfg->Write(DATA_SECTION, SAVE_OK, bchecked);
+	QString OKPath = ui.lineEdit_OKPath_Second->text();
+	if (bchecked && !OKPath.isEmpty())
+	{
+		cfg->Write(DATA_SECTION, OK_PATH, OKPath);
+	}
+
+	bool bconnected = CPLCManager::GetInstance()->GetConnectStatus();
+	cfg->Write(COMMUNICATION_SECTOIN, COM_STATUS, bconnected);
+	if (bconnected)
+	{
+		QString Ip = ui.lineEdit_IP->text();
+		int heartbeat = ui.spinBox_Heartbeat->value();
+		cfg->Write(COMMUNICATION_SECTOIN, IP, Ip);
+		cfg->Write(COMMUNICATION_SECTOIN, HEARTBEAT, heartbeat);
+	}
+
+	delete cfg;
+	cfg = NULL;
+}
 void CParameterSetting::SetButtonGroupEnabled(bool enabled, int index)
 {
 	if (index == 1)
@@ -528,7 +745,7 @@ bool CParameterSetting::OpenCamera(MV_CC_DEVICE_INFO device_info, int index)
 			int nRet = m_FirstCameraInfo.CameraHandle.GetOptimalPacketSize(&PackSize);
 			if (nRet == MV_OK)
 			{
-				m_FirstCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);           
+				m_FirstCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);
 			}
 			else
 			{
@@ -562,7 +779,6 @@ bool CParameterSetting::OpenCamera(MV_CC_DEVICE_INFO device_info, int index)
 			if (nRet == MV_OK)
 			{
 				m_SecondCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);
-
 			}
 			else
 			{
@@ -633,7 +849,6 @@ bool CParameterSetting::OpenCamera(MV_CC_DEVICE_INFO device_info, int index)
             if (nRet == MV_OK)
             {
                 m_FourCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);
-
             }
             else
             {
@@ -680,18 +895,122 @@ QImage CParameterSetting::MattoQImage(Mat image)
 	}
 }
 
+void CParameterSetting::LoadConfig()
+{
+
+	QString IniPath = QCoreApplication::applicationDirPath() + "/parameter_cfg.ini";
+	QFileInfo info;
+	if (info.exists(IniPath))
+	{
+		CConfig *cfg = new CConfig(IniPath);
+		QString FirstCameraName = cfg->GetString(CAMERA_SECTION, FIRST_CAMERA_NAME);
+		qDebug() << "load config first camera name:" << FirstCameraName;
+		printf("load config first camera name:%s\n", FirstCameraName.toStdString().c_str());
+		if (!FirstCameraName.isEmpty())
+		{
+			int index = ui.comboBox_First->findText(FirstCameraName);
+			qDebug() << "first camera comboBox index:" << index;
+			printf("first camera comboBox index:%d\n", index);
+			if (index != -1)
+			{
+				ui.comboBox_First->setCurrentIndex(index);
+				OpenFirstCamera();
+			}
+		}
+
+		QString SecondCameraName = cfg->GetString(CAMERA_SECTION, SECOND_CAMERA_NAME);
+		qDebug() << "load config second camera name:" << SecondCameraName;
+		printf("load config second camera name:%s\n", SecondCameraName.toStdString().c_str());
+		if (!SecondCameraName.isEmpty())
+		{
+			int index = ui.comboBox_Second->findText(SecondCameraName);
+			qDebug() << "second camera comboBox index:" << index;
+			printf("second camera comboBox index:%d\n", index);
+			if (index != -1)
+			{
+				ui.comboBox_Second->setCurrentIndex(index);
+				OpenSecondCamera();
+			}
+		}
+
+
+		bool rv = cfg->GetBool(COMMUNICATION_SECTOIN, COM_STATUS);
+		qDebug() << "load config plc connected:" << rv;
+		if (rv)
+		{
+			QString ip = cfg->GetString(COMMUNICATION_SECTOIN, IP);
+			qDebug() << "load config plc ip:" << ip;
+			printf("load config plc ip:%s\n", ip.toStdString().c_str());
+			ui.lineEdit_IP->setText(ip);
+			QString port = cfg->GetString(COMMUNICATION_SECTOIN, PORT);
+			qDebug() << "load config plc port:" << port;
+			printf("load config plc port:%s\n", port.toStdString().c_str());
+			ui.lineEdit_Port->setText(port);
+			int heartbeat = cfg->GetInt(COMMUNICATION_SECTOIN, HEARTBEAT);
+			qDebug() << "load config heartbeat:" << heartbeat;
+			printf("load config heartbeat:%d\n", heartbeat);
+			ui.spinBox_Heartbeat->setValue(heartbeat);
+			ConnectToPLC();
+			  
+		}
+
+		bool bSaveNG = cfg->GetBool(DATA_SECTION, SAVE_NG);
+		qDebug() << "load config save ng:" << bSaveNG;
+		printf("load config save ng:%d\n", bSaveNG);
+		ui.checkBox_SaveNG_First->setChecked(bSaveNG);
+		ui.pushButton_LoadNGPath_First->setEnabled(bSaveNG);
+		if (bSaveNG)
+		{
+			QString NGPath = cfg->GetString(DATA_SECTION, NG_PATH);
+			qDebug() << "load config save ng path:" << NGPath;
+			printf("load config save ng path:%s\n", NGPath.toStdString().c_str());
+			if (!NGPath.isEmpty())
+			{
+				ui.lineEdit_NGPath_First->setText(NGPath);
+			}
+		}
+
+		bool bSaveOK = cfg->GetBool(DATA_SECTION, SAVE_OK);
+		qDebug() << "load config save ok:" << bSaveOK;
+		printf("load config save ok:%d\n", bSaveOK);
+		ui.checkBox_SaveOK_First->setChecked(bSaveOK);
+		ui.pushButton_LoadOKPath_First->setEnabled(bSaveOK);
+		if (bSaveOK)
+		{
+			QString OKPath = cfg->GetString(DATA_SECTION, OK_PATH);
+			qDebug() << "load config save ok path:" << OKPath;
+			printf("load config save ok path:%s\n", OKPath.toStdString().c_str());
+			if (!OKPath.isEmpty())
+			{
+				ui.lineEdit_OKPath_First->setText(OKPath);
+			}
+		}
+
+
+	}
+	else
+	{
+		qDebug() << IniPath << ",is not exist";
+		printf("%s,is not exist\n", IniPath.toStdString().c_str());
+	}
+
+
+
+
+}
+
 void CParameterSetting::StartDetecion(bool bStart)
 {
 	if (bStart)
 	{
-		m_FirstCameraInfo.ImageCapture->SetSystemType(CAMERA_FIRST);
-		m_SecondCameraInfo.ImageCapture->SetSystemType(CAMERA_SECOND);
-		m_ThirdCameraInfo.ImageCapture->SetSystemType(CAMERA_THIRD);
-		m_FourCameraInfo.ImageCapture->SetSystemType(CAMERA_FOURTH);
+		m_FirstCameraInfo.ImageCapture->SetSystemType(RUN_ONLINE);
+		m_SecondCameraInfo.ImageCapture->SetSystemType(RUN_ONLINE);
+		m_ThirdCameraInfo.ImageCapture->SetSystemType(RUN_ONLINE);
+		m_FourCameraInfo.ImageCapture->SetSystemType(RUN_ONLINE);
 	}
 	else
 	{
-		//SetSystemType(ui.comboBox_SystemType->currentIndex());
+		SetSystemType(ui.comboBox_SystemType->currentIndex());
 	}
 	m_FirstCameraInfo.ImageCapture->SetRunStatus(bStart);
 	m_SecondCameraInfo.ImageCapture->SetRunStatus(bStart);
@@ -722,7 +1041,7 @@ void CParameterSetting::OpenFirstCamera()
 	}
 	else
 	{
-		if (name == m_FirstCameraInfo.CameraName)
+	if (name == m_FirstCameraInfo.CameraName)
 		{
 			QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("相机已被占用"));
 			return;
@@ -747,7 +1066,6 @@ void CParameterSetting::OpenFirstCamera()
 			ui.pushButton_OpenFirst->setText(QString::fromLocal8Bit("关闭相机"));
 		}
 	}
-
 }
 
 
@@ -939,9 +1257,9 @@ void CParameterSetting::OpenFourthCamera()
 	}
 }
 
-void CParameterSetting::ReceivaAlgoImage( Mat OriginalImage, e_CameraType type, int Time, bool bok)
+void CParameterSetting::ReceivaAlgoImage( Mat AlgolImage, e_CameraType type, int Time, bool bok)
 {
-	emit SendAlgoImageToMainWindow(OriginalImage, type, Time, bok);
+	emit SendAlgoImageToMainWindow(AlgolImage, type, Time, bok);
 }
 
 void CParameterSetting::SaveCameraParams1()
@@ -952,7 +1270,7 @@ void CParameterSetting::SaveCameraParams1()
     int nRet = SetExposureTime(m_FirstCameraInfo.CameraHandle,1);
     if (nRet != MV_OK)
     {
-		SafeParamsSetting();
+        SafeParamsSetting();
         bIsSetSucceed = false;
         qDebug() << "Set Exposure Time Fail";
         ShowErrorMsg(("Set Exposure Time Fail"), nRet);
@@ -960,7 +1278,7 @@ void CParameterSetting::SaveCameraParams1()
     nRet = SetGain(m_FirstCameraInfo.CameraHandle,1);
     if (nRet != MV_OK)
     {
-		SafeParamsSetting();
+      	SafeParamsSetting();
         bIsSetSucceed = false;
         qDebug() << "Set Gain Fail";
         ShowErrorMsg(("Set Gain Fail"), nRet);
@@ -980,12 +1298,12 @@ int CParameterSetting::SetExposureTime(CMvCamera &CameraHandle, int index)
 {
     // ch:调节这两个曝光模式，才能让曝光时间生效
     // en:Adjust these two exposure mode to allow exposure time effective
-
     int nRet = CameraHandle.SetEnumValue("ExposureMode", MV_EXPOSURE_MODE_TIMED);
     if (MV_OK != nRet)
     {
         return nRet;
     }
+
 
     nRet = CameraHandle.SetEnumValue("ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF);
 	switch (index)
@@ -1011,7 +1329,6 @@ int CParameterSetting::SetExposureTime(CMvCamera &CameraHandle, int index)
 			}
 			break;
 	}
-
     nRet = CameraHandle.SetFloatValue("ExposureTime", (float)m_dExposureEdit);
     if (MV_OK != nRet)
     {
@@ -1024,9 +1341,8 @@ int CParameterSetting::SetExposureTime(CMvCamera &CameraHandle, int index)
 int CParameterSetting::GetExposureTime(CMvCamera &CameraHandle, int index)
 {
     MVCC_FLOATVALUE stFloatValue = {0};
-
-	//CMvCamera camera = CameraHandle;//句柄无效，但是值都是对的，为什么呢？？？不要轻易设置成const，至少在这里设置成const值是不行
-	int nRet = CameraHandle.GetFloatValue("ExposureTime", &stFloatValue);
+    //m_FirstCameraInfo.CameraHandle = CameraHandle;
+    int nRet = CameraHandle.GetFloatValue("ExposureTime", &stFloatValue);
     if (MV_OK != nRet)
     {
         return nRet;
@@ -1088,6 +1404,8 @@ int CParameterSetting::GetExposureTime(CMvCamera &CameraHandle, int index)
 	}
 	default:;
 	}
+
+
 
     return MV_OK;
 }
@@ -1162,6 +1480,7 @@ int CParameterSetting::GetGain(CMvCamera &CameraHandle, int index)
 
     return MV_OK;
 }
+
 
 // ch:设置增益 | en:Set Gain
 int CParameterSetting::SetGain(CMvCamera &CameraHandle, int index)
@@ -1375,3 +1694,4 @@ void CParameterSetting::SafeParamsSetting()
 	}
 	
 }
+
