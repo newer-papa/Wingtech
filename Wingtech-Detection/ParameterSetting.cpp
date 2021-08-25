@@ -203,8 +203,15 @@ void CParameterSetting::InitConnections()
 	qRegisterMetaType<e_CameraType>("e_CameraType");
 	connect(m_FirstCameraInfo.ImageCapture, SIGNAL(SendAlgoImage(Mat, e_CameraType,int,bool)), this, SLOT(ReceivaAlgoImage( Mat, e_CameraType,int,bool)));
 	connect(m_FirstGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(SwitchFirstCameraStatus(int, bool)));
+	
 	connect(m_SecondCameraInfo.ImageCapture, SIGNAL(SendAlgoImage(Mat, e_CameraType, int, bool)), this, SLOT(ReceivaAlgoImage(Mat, e_CameraType, int, bool)));
 	connect(m_SecondGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(SwitchSecondCameraStatus(int, bool)));
+	
+	connect(m_ThirdCameraInfo.ImageCapture, SIGNAL(SendAlgoImage(Mat, e_CameraType,int,bool)), this, SLOT(ReceivaAlgoImage( Mat, e_CameraType,int,bool)));
+	connect(m_ThirdGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(SwitchThirdCameraStatus(int, bool)));
+
+	connect(m_FourCameraInfo.ImageCapture, SIGNAL(SendAlgoImage(Mat, e_CameraType, int, bool)), this, SLOT(ReceivaAlgoImage(Mat, e_CameraType, int, bool)));
+	connect(m_FourthGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(SwitchFourthCameraStatus(int, bool)));
 
 }
 
@@ -222,6 +229,8 @@ void CParameterSetting::InitCamera()
 	}
 	ui.pushButton_OpenFirst->setEnabled(m_stDevList.nDeviceNum > 0);
 	ui.pushButton_OpenSecond->setEnabled(m_stDevList.nDeviceNum > 0);
+	ui.pushButton_OpenThird->setEnabled(m_stDevList.nDeviceNum > 0);
+	ui.pushButton_OpenFourth->setEnabled(m_stDevList.nDeviceNum > 0);
 	for (int i = 0; i < m_stDevList.nDeviceNum; ++i)
 	{
 		MV_CC_DEVICE_INFO* pDeviceInfo = m_stDevList.pDeviceInfo[i];
@@ -231,6 +240,8 @@ void CParameterSetting::InitCamera()
 		QString UserName = QString::fromLocal8Bit(strUserName);
 		ui.comboBox_First->addItem(UserName);
 		ui.comboBox_Second->addItem(UserName);
+		ui.comboBox_Third->addItem(UserName);
+		ui.comboBox_Four->addItem(UserName);
 		qDebug() << "CameraName;" << strUserName;
 		printf("Find Camera:%s\n", strUserName);
 	}
@@ -330,6 +341,35 @@ void CParameterSetting::SwitchSecondCameraStatus(int index, bool checked)
 	}
 }
 
+void CParameterSetting::SaveCameraParams2()
+{
+	qDebug() << "参数设置buttonParamsSet2";
+	update();
+	bool bIsSetSucceed = true;
+	int nRet = SetExposureTime(m_SecondCameraInfo.CameraHandle,2);
+	if (nRet != MV_OK)
+	{
+		bIsSetSucceed = false;
+		qDebug() << "Set Exposure Time Fail";
+		ShowErrorMsg(("Set Exposure Time Fail"), nRet);
+	}
+	nRet = SetGain(m_SecondCameraInfo.CameraHandle,2);
+	if (nRet != MV_OK)
+	{
+		bIsSetSucceed = false;
+		qDebug() << "Set Gain Fail";
+		ShowErrorMsg(("Set Gain Fail"), nRet);
+	}
+
+	if (true == bIsSetSucceed)
+	{
+		qDebug() << "Set Parameter Succeed";
+		ShowErrorMsg(("Set Parameter Succeed"), nRet);
+	}
+
+	return;
+}
+
 void CParameterSetting::SwitchThirdCameraStatus(int index, bool checked)
 {
 	qDebug() << "SwitchThirdCameraStatus:" << index;
@@ -353,6 +393,35 @@ void CParameterSetting::SwitchThirdCameraStatus(int index, bool checked)
 			break;
 		}
 	}
+}
+
+void CParameterSetting::SaveCameraParams3()
+{
+	qDebug() << "参数设置buttonParamsSet2";
+	update();
+	bool bIsSetSucceed = true;
+	int nRet = SetExposureTime(m_ThirdCameraInfo.CameraHandle, 3);
+	if (nRet != MV_OK)
+	{
+		bIsSetSucceed = false;
+		qDebug() << "Set Exposure Time Fail";
+		ShowErrorMsg(("Set Exposure Time Fail"), nRet);
+	}
+	nRet = SetGain(m_ThirdCameraInfo.CameraHandle, 3);
+	if (nRet != MV_OK)
+	{
+		bIsSetSucceed = false;
+		qDebug() << "Set Gain Fail";
+		ShowErrorMsg(("Set Gain Fail"), nRet);
+	}
+
+	if (true == bIsSetSucceed)
+	{
+		qDebug() << "Set Parameter Succeed";
+		ShowErrorMsg(("Set Parameter Succeed"), nRet);
+	}
+
+	return;
 }
 
 void CParameterSetting::SwitchFourthCameraStatus(int index, bool checked)
@@ -379,6 +448,36 @@ void CParameterSetting::SwitchFourthCameraStatus(int index, bool checked)
 		}
 	}
 }
+
+void CParameterSetting::SaveCameraParams4()
+{
+	qDebug() << "参数设置buttonParamsSet2";
+	update();
+	bool bIsSetSucceed = true;
+	int nRet = SetExposureTime(m_FourCameraInfo.CameraHandle, 4);
+	if (nRet != MV_OK)
+	{
+		bIsSetSucceed = false;
+		qDebug() << "Set Exposure Time Fail";
+		ShowErrorMsg(("Set Exposure Time Fail"), nRet);
+	}
+	nRet = SetGain(m_FourCameraInfo.CameraHandle, 4);
+	if (nRet != MV_OK)
+	{
+		bIsSetSucceed = false;
+		qDebug() << "Set Gain Fail";
+		ShowErrorMsg(("Set Gain Fail"), nRet);
+	}
+
+	if (true == bIsSetSucceed)
+	{
+		qDebug() << "Set Parameter Succeed";
+		ShowErrorMsg(("Set Parameter Succeed"), nRet);
+	}
+
+	return;
+}
+
 void CParameterSetting::SetButtonGroupEnabled(bool enabled, int index)
 {
 	if (index == 1)
@@ -423,13 +522,13 @@ bool CParameterSetting::OpenCamera(MV_CC_DEVICE_INFO device_info, int index)
 		}
 		else
 		{
+			GetExposureTime(m_FirstCameraInfo.CameraHandle, 1);
+			GetGain(m_FirstCameraInfo.CameraHandle,1); 
 			unsigned int PackSize = 0;
 			int nRet = m_FirstCameraInfo.CameraHandle.GetOptimalPacketSize(&PackSize);
 			if (nRet == MV_OK)
 			{
-				m_FirstCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);
-                GetGain(m_FirstCameraInfo.CameraHandle);
-                GetExposureTime(m_FirstCameraInfo.CameraHandle);
+				m_FirstCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);           
 			}
 			else
 			{
@@ -456,13 +555,14 @@ bool CParameterSetting::OpenCamera(MV_CC_DEVICE_INFO device_info, int index)
 		}
 		else
 		{
+			GetGain(m_SecondCameraInfo.CameraHandle, 2);
+			GetExposureTime(m_SecondCameraInfo.CameraHandle, 2);
 			unsigned int PackSize = 0;
 			int nRet = m_SecondCameraInfo.CameraHandle.GetOptimalPacketSize(&PackSize);
 			if (nRet == MV_OK)
 			{
 				m_SecondCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);
-                GetGain(m_SecondCameraInfo.CameraHandle);
-                GetExposureTime(m_SecondCameraInfo.CameraHandle);
+
 			}
 			else
 			{
@@ -490,13 +590,13 @@ bool CParameterSetting::OpenCamera(MV_CC_DEVICE_INFO device_info, int index)
         }
         else
         {
+			GetGain(m_ThirdCameraInfo.CameraHandle, 3);
+			GetExposureTime(m_ThirdCameraInfo.CameraHandle, 3);
             unsigned int PackSize = 0;
             int nRet = m_ThirdCameraInfo.CameraHandle.GetOptimalPacketSize(&PackSize);
             if (nRet == MV_OK)
             {
                 m_ThirdCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);
-                GetGain(m_ThirdCameraInfo.CameraHandle);
-                GetExposureTime(m_ThirdCameraInfo.CameraHandle);
             }
             else
             {
@@ -526,13 +626,14 @@ bool CParameterSetting::OpenCamera(MV_CC_DEVICE_INFO device_info, int index)
         }
         else
         {
+			GetGain(m_FourCameraInfo.CameraHandle, 4);
+			GetExposureTime(m_FourCameraInfo.CameraHandle, 4);
             unsigned int PackSize = 0;
             int nRet = m_FourCameraInfo.CameraHandle.GetOptimalPacketSize(&PackSize);
             if (nRet == MV_OK)
             {
                 m_FourCameraInfo.CameraHandle.SetIntValue("GevSCPSPacketSize", PackSize);
-                GetGain(m_FourCameraInfo.CameraHandle);
-                GetExposureTime(m_FourCameraInfo.CameraHandle);
+
             }
             else
             {
@@ -584,14 +685,18 @@ void CParameterSetting::StartDetecion(bool bStart)
 	if (bStart)
 	{
 		m_FirstCameraInfo.ImageCapture->SetSystemType(CAMERA_FIRST);
-		m_SecondCameraInfo.ImageCapture->SetSystemType(CAMERA_FIRST);
+		m_SecondCameraInfo.ImageCapture->SetSystemType(CAMERA_SECOND);
+		m_ThirdCameraInfo.ImageCapture->SetSystemType(CAMERA_THIRD);
+		m_FourCameraInfo.ImageCapture->SetSystemType(CAMERA_FOURTH);
 	}
 	else
 	{
 		//SetSystemType(ui.comboBox_SystemType->currentIndex());
 	}
 	m_FirstCameraInfo.ImageCapture->SetRunStatus(bStart);
-	//m_SecondCameraInfo.ImageCapture->SetRunStatus(bStart);
+	m_SecondCameraInfo.ImageCapture->SetRunStatus(bStart);
+	m_ThirdCameraInfo.ImageCapture->SetRunStatus(bStart);
+	m_FourCameraInfo.ImageCapture->SetRunStatus(bStart);
 	//CSerialManager::GetInstance()->OpenHeart(bStart);
 }
 
@@ -617,7 +722,7 @@ void CParameterSetting::OpenFirstCamera()
 	}
 	else
 	{
-		if (name == m_SecondCameraInfo.CameraName)
+		if (name == m_FirstCameraInfo.CameraName)
 		{
 			QMessageBox::information(this, QString::fromLocal8Bit("提示"), QString::fromLocal8Bit("相机已被占用"));
 			return;
@@ -642,6 +747,7 @@ void CParameterSetting::OpenFirstCamera()
 			ui.pushButton_OpenFirst->setText(QString::fromLocal8Bit("关闭相机"));
 		}
 	}
+
 }
 
 
@@ -797,10 +903,10 @@ void CParameterSetting::OpenFourthCamera()
 		{
 			return;
 		}
-		ui.pushButton_OpenSecond->setText(QString::fromLocal8Bit("打开相机"));
+		ui.pushButton_OpenFourth->setText(QString::fromLocal8Bit("打开相机"));
 		SetButtonGroupEnabled(false, 4);
 		//ui.pushButton_SaveConfig->setEnabled(false);
-		ui.pushButton_TriggerSecond->setEnabled(false);
+		ui.pushButton_TriggerFourth->setEnabled(false);
 		m_FourCameraInfo.bOpenCamera = false;
 		m_FourCameraInfo.CameraName.clear();
 	}
@@ -843,14 +949,14 @@ void CParameterSetting::SaveCameraParams1()
     qDebug() << "参数设置buttonParamsSet";
     update();
     bool bIsSetSucceed = true;
-    int nRet = SetExposureTime(m_FirstCameraInfo.CameraHandle);
+    int nRet = SetExposureTime(m_FirstCameraInfo.CameraHandle,1);
     if (nRet != MV_OK)
     {
         bIsSetSucceed = false;
         qDebug() << "Set Exposure Time Fail";
         ShowErrorMsg(("Set Exposure Time Fail"), nRet);
     }
-    nRet = SetGain(m_FirstCameraInfo.CameraHandle);
+    nRet = SetGain(m_FirstCameraInfo.CameraHandle,1);
     if (nRet != MV_OK)
     {
         bIsSetSucceed = false;
@@ -868,20 +974,44 @@ void CParameterSetting::SaveCameraParams1()
 }
 
 // ch:设置曝光时间 | en:Set Exposure Time
-int CParameterSetting::SetExposureTime(const CMvCamera &CameraHandle)
+int CParameterSetting::SetExposureTime(const CMvCamera &CameraHandle, int index)
 {
     // ch:调节这两个曝光模式，才能让曝光时间生效
     // en:Adjust these two exposure mode to allow exposure time effective
-    m_FirstCameraInfo.CameraHandle = CameraHandle;
-    int nRet = m_FirstCameraInfo.CameraHandle.SetEnumValue("ExposureMode", MV_EXPOSURE_MODE_TIMED);
+	CMvCamera camera = CameraHandle;
+    int nRet = camera.SetEnumValue("ExposureMode", MV_EXPOSURE_MODE_TIMED);
     if (MV_OK != nRet)
     {
         return nRet;
     }
 
-    nRet = m_FirstCameraInfo.CameraHandle.SetEnumValue("ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF);
-    m_dExposureEdit = ui.le_exposure_1->text().toFloat();
-    nRet = m_FirstCameraInfo.CameraHandle.SetFloatValue("ExposureTime", (float)m_dExposureEdit);
+    nRet = camera.SetEnumValue("ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF);
+
+	switch (index)
+	{
+		case 1:
+			{
+				m_dExposureEdit = ui.le_exposure_1->text().toFloat();
+			}
+			break;
+		case 2:
+			{
+				m_dExposureEdit = ui.le_exposure_2->text().toFloat();
+			}
+			break;
+		case 3:
+			{
+				m_dExposureEdit = ui.le_exposure_3->text().toFloat();
+			}
+			break;
+		case 4:
+			{
+				m_dExposureEdit = ui.le_exposure_4->text().toFloat();
+			}
+			break;
+	}
+
+    nRet = camera.SetFloatValue("ExposureTime", (float)m_dExposureEdit);
     if (MV_OK != nRet)
     {
         return nRet;
@@ -890,63 +1020,181 @@ int CParameterSetting::SetExposureTime(const CMvCamera &CameraHandle)
     return MV_OK;
 }
 // ch:获取曝光时间 | en:Get Exposure Time
-int CParameterSetting::GetExposureTime(const CMvCamera &CameraHandle)
+int CParameterSetting::GetExposureTime(CMvCamera &CameraHandle, int index)
 {
     MVCC_FLOATVALUE stFloatValue = {0};
-    m_FirstCameraInfo.CameraHandle = CameraHandle;
-    int nRet = m_FirstCameraInfo.CameraHandle.GetFloatValue("ExposureTime", &stFloatValue);
+
+	//CMvCamera camera = CameraHandle;//句柄无效，但是值都是对的，为什么呢？？？不要轻易设置成const，至少在这里设置成const值是不行
+	int nRet = CameraHandle.GetFloatValue("ExposureTime", &stFloatValue);
     if (MV_OK != nRet)
     {
         return nRet;
     }
-    // ui.lineEdit_exposure->setText(QString::number(stFloatValue.fCurValue));
 
-    if (ui.le_exposure_1->text().isEmpty())
-    {
-        m_dExposureEdit = stFloatValue.fCurValue;
-        ui.le_exposure_1->setText(QString::number(m_dExposureEdit));
-    }
-    else
-    {
-        m_dExposureEdit = ui.le_exposure_1->text().toFloat();
-    }
+	switch (index)
+	{
+	case 1:
+	{
+		if (ui.le_exposure_1->text().isEmpty())
+		{
+			m_dExposureEdit = stFloatValue.fCurValue;
+			ui.le_exposure_1->setText(QString::number(m_dExposureEdit));
+		}
+		else
+		{
+			m_dExposureEdit = ui.le_exposure_1->text().toFloat();
+		}
+		break;
+	}
+	case 2:
+	{
+		if (ui.le_exposure_2->text().isEmpty())
+		{
+			m_dExposureEdit = stFloatValue.fCurValue;
+			ui.le_exposure_2->setText(QString::number(m_dExposureEdit));
+		}
+		else
+		{
+			m_dExposureEdit = ui.le_exposure_2->text().toFloat();
+		}
+		break;
+	}
+	case 3:
+	{
+		if (ui.le_exposure_3->text().isEmpty())
+		{
+			m_dExposureEdit = stFloatValue.fCurValue;
+			ui.le_exposure_3->setText(QString::number(m_dExposureEdit));
+		}
+		else
+		{
+			m_dExposureEdit = ui.le_exposure_3->text().toFloat();
+		}
+		break;
+	}
+	case 4:
+	{
+		if (ui.le_exposure_4->text().isEmpty())
+		{
+			m_dExposureEdit = stFloatValue.fCurValue;
+			ui.le_exposure_4->setText(QString::number(m_dExposureEdit));
+		}
+		else
+		{
+			m_dExposureEdit = ui.le_exposure_4->text().toFloat();
+		}
+		break;
+	}
+	default:;
+	}
 
     return MV_OK;
 }
 
 // ch:获取增益 | en:Get Gain
-int CParameterSetting::GetGain(const CMvCamera &CameraHandle)
+int CParameterSetting::GetGain(CMvCamera &CameraHandle, int index)
 {
     MVCC_FLOATVALUE stFloatValue = {0};
-    m_FirstCameraInfo.CameraHandle = CameraHandle;
-    int nRet = m_FirstCameraInfo.CameraHandle.GetFloatValue("Gain", &stFloatValue);
+
+	int nRet = CameraHandle.GetFloatValue("Gain", &stFloatValue);
     if (MV_OK != nRet)
     {
         return nRet;
     }
+	switch (index)
+	{
+		case 1 : 
+		{
+			if (ui.le_gain_1->text().isEmpty())
+			{
+				m_dGainEdit = (int)stFloatValue.fCurValue;
+				ui.le_gain_1->setText(QString::number(m_dGainEdit));
+			}
+			else
+			{
+				m_dGainEdit = ui.le_gain_1->text().toInt();
+			}
+			break;
+		}
+		case 2:
+		{
+			if (ui.le_gain_2->text().isEmpty())
+			{
+				m_dGainEdit = (int)stFloatValue.fCurValue;
+				ui.le_gain_2->setText(QString::number(m_dGainEdit));
+			}
+			else
+			{
+				m_dGainEdit = ui.le_gain_2->text().toInt();
+			}
+			break;
+		}
+		case 3:
+		{
+			if (ui.le_gain_3->text().isEmpty())
+			{
+				m_dGainEdit = (int)stFloatValue.fCurValue;
+				ui.le_gain_3->setText(QString::number(m_dGainEdit));
+			}
+			else
+			{
+				m_dGainEdit = ui.le_gain_3->text().toInt();
+			}
+			break;
+		}
+		case 4:
+		{
+			if (ui.le_gain_4->text().isEmpty())
+			{
+				m_dGainEdit = (int)stFloatValue.fCurValue;
+				ui.le_gain_4->setText(QString::number(m_dGainEdit));
+			}
+			else
+			{
+				m_dGainEdit = ui.le_gain_4->text().toInt();
+			}
+			break;
+		}
+		default:;
+	}
 
-    if (ui.le_gain_1->text().isEmpty())
-    {
-        m_dGainEdit = (int)stFloatValue.fCurValue;
-        ui.le_gain_1->setText(QString::number(m_dGainEdit));
-    }
-    else
-    {
-        m_dGainEdit = ui.le_gain_1->text().toInt();
-    }
 
     return MV_OK;
 }
 
 // ch:设置增益 | en:Set Gain
-int CParameterSetting::SetGain(const CMvCamera &CameraHandle)
+int CParameterSetting::SetGain(const CMvCamera &CameraHandle, int index)
 {
     // ch:设置增益前先把自动增益关闭，失败无需返回
     // en:Set Gain after Auto Gain is turned off, this failure does not need to return
-    m_FirstCameraInfo.CameraHandle = CameraHandle;
-    int nRet = m_FirstCameraInfo.CameraHandle.SetEnumValue("GainAuto", 0);
-    m_dGainEdit = ui.le_gain_1->text().toInt();
-    return m_FirstCameraInfo.CameraHandle.SetFloatValue("Gain", (float)m_dGainEdit);
+	CMvCamera camera = CameraHandle;
+    int nRet = camera.SetEnumValue("GainAuto", 0);
+	switch (index)
+	{
+		case 1:
+			{
+				m_dGainEdit = ui.le_gain_1->text().toInt();
+			}
+			break;
+		case 2:
+			{
+				m_dGainEdit = ui.le_gain_2->text().toInt();
+			}
+			break;
+		case 3:
+			{
+				m_dGainEdit = ui.le_gain_3->text().toInt();
+			}
+			break;
+		case 4:
+			{
+				m_dGainEdit = ui.le_gain_4->text().toInt();
+			}
+			break;
+		default:;
+	}
+    
+    return camera.SetFloatValue("Gain", (float)m_dGainEdit);
 }
 
 // ch:显示错误信息 | en:Show error message
@@ -1019,7 +1267,7 @@ void CParameterSetting::ShowErrorMsg(QString Message, int nErrorNum)
     QMessageBox::information(NULL, "PROMPT", errorMsg, QMessageBox::Yes || QMessageBox::No, QMessageBox::Yes);
 }
 
-void CParameterSetting::getCameraParams()
+void CParameterSetting::getCameraParams(int index)
 {
     qDebug() << "获取参数buttonParamsGet";
 
@@ -1029,20 +1277,79 @@ void CParameterSetting::getCameraParams()
     //    qDebug() << "Get Trigger Mode Fail";
     //    ShowErrorMsg(("Get Trigger Mode Fail"), nRet);
     //}
+	switch (index)
+	{
+		case 1:
+		{
+			int nRet = GetExposureTime(m_FirstCameraInfo.CameraHandle,1);
+			if (nRet != MV_OK)
+			{
+				qDebug() << "Get Exposure Time Fail";
+				ShowErrorMsg(("Get Exposure Time Fail"), nRet);
+			}
 
-    int nRet = GetExposureTime(m_FirstCameraInfo.CameraHandle);
-    if (nRet != MV_OK)
-    {
-        qDebug() << "Get Exposure Time Fail";
-        ShowErrorMsg(("Get Exposure Time Fail"), nRet);
-    }
+			nRet = GetGain(m_FirstCameraInfo.CameraHandle,1);
+			if (nRet != MV_OK)
+			{
+				qDebug() << "Get Gain Fail";
+				ShowErrorMsg(("Get Gain Fail"), nRet);
+			}
+		}	
+		break;
+		case 2:
+		{
+			int nRet = GetExposureTime(m_SecondCameraInfo.CameraHandle,2);
+			if (nRet != MV_OK)
+			{
+				qDebug() << "Get Exposure Time Fail";
+				ShowErrorMsg(("Get Exposure Time Fail"), nRet);
+			}
 
-    nRet = GetGain(m_FirstCameraInfo.CameraHandle);
-    if (nRet != MV_OK)
-    {
-        qDebug() << "Get Gain Fail";
-        ShowErrorMsg(("Get Gain Fail"), nRet);
-    }
+			nRet = GetGain(m_SecondCameraInfo.CameraHandle,2);
+			if (nRet != MV_OK)
+			{
+				qDebug() << "Get Gain Fail";
+				ShowErrorMsg(("Get Gain Fail"), nRet);
+			}
+		}	
+		break;
+		case 3:
+		{
+			int nRet = GetExposureTime(m_ThirdCameraInfo.CameraHandle,3);
+			if (nRet != MV_OK)
+			{
+				qDebug() << "Get Exposure Time Fail";
+				ShowErrorMsg(("Get Exposure Time Fail"), nRet);
+			}
+
+			nRet = GetGain(m_ThirdCameraInfo.CameraHandle,3);
+			if (nRet != MV_OK)
+			{
+				qDebug() << "Get Gain Fail";
+				ShowErrorMsg(("Get Gain Fail"), nRet);
+			}
+		}	
+		break;
+		case 4:
+		{
+			int nRet = GetExposureTime(m_FourCameraInfo.CameraHandle,4);
+			if (nRet != MV_OK)
+			{
+				qDebug() << "Get Exposure Time Fail";
+				ShowErrorMsg(("Get Exposure Time Fail"), nRet);
+			}
+
+			nRet = GetGain(m_FourCameraInfo.CameraHandle,4);
+			if (nRet != MV_OK)
+			{
+				qDebug() << "Get Gain Fail";
+				ShowErrorMsg(("Get Gain Fail"), nRet);
+			}
+		}
+		break;
+		default:;
+	}
+
 
     //nRet = GetTriggerSource();
     //if (nRet != MV_OK)

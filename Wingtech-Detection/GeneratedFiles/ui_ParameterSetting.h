@@ -1059,8 +1059,11 @@ public:
         QObject::connect(pushButton_LoadFirstImage, SIGNAL(clicked()), DialogSetting, SLOT(LoadFirstImage()));
         QObject::connect(pushButton_SaveParams, SIGNAL(clicked()), DialogSetting, SLOT(SaveCameraParams1()));
         QObject::connect(pushButton_OpenSecond, SIGNAL(clicked()), DialogSetting, SLOT(OpenSecondCamera()));
-        QObject::connect(pushButton_OpenThird, SIGNAL(clicked()), label_ThirdImage, SLOT(OpenThirdCamera()));
-        QObject::connect(pushButton_OpenFourth, SIGNAL(clicked()), label_FourthImage, SLOT(OpenFourthCamera()));
+        QObject::connect(pushButton_OpenThird, SIGNAL(clicked()), DialogSetting, SLOT(OpenThirdCamera()));
+        QObject::connect(pushButton_SaveParams_Second, SIGNAL(clicked()), DialogSetting, SLOT(SaveCameraParams2()));
+        QObject::connect(pushButton_SaveParams_Third, SIGNAL(clicked()), DialogSetting, SLOT(SaveCameraParams3()));
+        QObject::connect(pushButton_SaveParams_Fourth, SIGNAL(clicked()), DialogSetting, SLOT(SaveCameraParams4()));
+        QObject::connect(pushButton_OpenFourth, SIGNAL(clicked()), DialogSetting, SLOT(OpenFourthCamera()));
 
         tabWidget->setCurrentIndex(0);
 

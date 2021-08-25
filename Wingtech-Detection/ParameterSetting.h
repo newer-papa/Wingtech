@@ -35,13 +35,13 @@ private:
 	bool OpenCamera(MV_CC_DEVICE_INFO device_info, int index);
 	QImage MattoQImage(Mat image);
 
-    int GetExposureTime(const CMvCamera &CameraHandle);  // ch:设置曝光时间 | en:Set Exposure Time
-    int SetExposureTime(const CMvCamera &CameraHandle);
-    int GetGain(const CMvCamera &CameraHandle);  // ch:设置增益 | en:Set Gain
-    int SetGain(const CMvCamera &CameraHandle);
+    int GetExposureTime(CMvCamera &CameraHandle, int index);  // ch:设置曝光时间 | en:Set Exposure Time
+    int SetExposureTime(const CMvCamera &CameraHandle, int index);
+    int GetGain(CMvCamera &CameraHandle, int index);  // ch:设置增益 | en:Set Gain
+    int SetGain(const CMvCamera &CameraHandle, int index);
 
 	void ShowErrorMsg(QString Message, int nErrorNum) ;
-    void getCameraParams();
+    void getCameraParams(int index);
 
 	void InitFirstGroup();
 	void InitSecondGroup();
@@ -59,12 +59,15 @@ private slots:
 	void OpenSecondCamera();
 	void LoadSecondImage();
 	void SwitchSecondCameraStatus(int index, bool checked);
+	void SaveCameraParams2();
 
 	void OpenThirdCamera();
 	void SwitchThirdCameraStatus(int index, bool checked);
+	void SaveCameraParams3();
 
 	void OpenFourthCamera();
 	void SwitchFourthCameraStatus(int index, bool checked);
+	void SaveCameraParams4();
 
 signals:
 	void SendAlgoImageToMainWindow( Mat OriginalImage, e_CameraType type,int index, bool bok);

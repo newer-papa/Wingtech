@@ -1597,6 +1597,7 @@ color: rgb(85, 0, 255);</string>
     <slot>OpenSecondCamera()</slot>
     <slot>OpenThirdCamera()</slot>
     <slot>OpenFourthCamera()</slot>
+    <slot>slot1()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -1735,32 +1736,80 @@ color: rgb(85, 0, 255);</string>
   <connection>
    <sender>pushButton_OpenThird</sender>
    <signal>clicked()</signal>
-   <receiver>label_ThirdImage</receiver>
+   <receiver>DialogSetting</receiver>
    <slot>OpenThirdCamera()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>565</x>
-     <y>663</y>
+     <x>575</x>
+     <y>667</y>
     </hint>
     <hint type="destinationlabel">
-     <x>800</x>
-     <y>854</y>
+     <x>632</x>
+     <y>1209</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_SaveParams_Second</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogSetting</receiver>
+   <slot>SaveCameraParams2()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>537</x>
+     <y>571</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>486</x>
+     <y>1220</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_SaveParams_Third</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogSetting</receiver>
+   <slot>SaveCameraParams3()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>528</x>
+     <y>845</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>527</x>
+     <y>1243</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_SaveParams_Fourth</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogSetting</receiver>
+   <slot>SaveCameraParams4()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>591</x>
+     <y>1123</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>605</x>
+     <y>1226</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>pushButton_OpenFourth</sender>
    <signal>clicked()</signal>
-   <receiver>label_FourthImage</receiver>
+   <receiver>DialogSetting</receiver>
    <slot>OpenFourthCamera()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>586</x>
-     <y>945</y>
+     <x>560</x>
+     <y>934</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1240</x>
-     <y>1083</y>
+     <x>553</x>
+     <y>1226</y>
     </hint>
    </hints>
   </connection>
@@ -1792,5 +1841,7 @@ color: rgb(85, 0, 255);</string>
   <slot>SaveCameraParams2()</slot>
   <slot>SaveCameraParams3()</slot>
   <slot>SaveCameraParams4()</slot>
+  <slot>OpenThirdCamera()</slot>
+  <slot>OpenFourthCamera()</slot>
  </slots>
 </ui>
