@@ -36,9 +36,9 @@ private:
 	QImage MattoQImage(Mat image);
 
     int GetExposureTime(CMvCamera &CameraHandle, int index);  // ch:设置曝光时间 | en:Set Exposure Time
-    int SetExposureTime(const CMvCamera &CameraHandle, int index);
+    int SetExposureTime(CMvCamera &CameraHandle, int index);
     int GetGain(CMvCamera &CameraHandle, int index);  // ch:设置增益 | en:Set Gain
-    int SetGain(const CMvCamera &CameraHandle, int index);
+    int SetGain(CMvCamera &CameraHandle, int index);
 
 	void ShowErrorMsg(QString Message, int nErrorNum) ;
     void getCameraParams(int index);
@@ -47,6 +47,8 @@ private:
 	void InitSecondGroup();
 	void InitThirdtGroup();
 	void InitFourthGroup();
+
+	void SafeParamsSetting();
 
 private slots:
 	//void ReceivaAlgoImage( Mat OriginalImage, e_CameraType type, int Time,bool bok);

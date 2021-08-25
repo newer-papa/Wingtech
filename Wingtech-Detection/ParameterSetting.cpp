@@ -952,6 +952,7 @@ void CParameterSetting::SaveCameraParams1()
     int nRet = SetExposureTime(m_FirstCameraInfo.CameraHandle,1);
     if (nRet != MV_OK)
     {
+		SafeParamsSetting();
         bIsSetSucceed = false;
         qDebug() << "Set Exposure Time Fail";
         ShowErrorMsg(("Set Exposure Time Fail"), nRet);
@@ -959,6 +960,7 @@ void CParameterSetting::SaveCameraParams1()
     nRet = SetGain(m_FirstCameraInfo.CameraHandle,1);
     if (nRet != MV_OK)
     {
+		SafeParamsSetting();
         bIsSetSucceed = false;
         qDebug() << "Set Gain Fail";
         ShowErrorMsg(("Set Gain Fail"), nRet);
@@ -974,19 +976,18 @@ void CParameterSetting::SaveCameraParams1()
 }
 
 // ch:设置曝光时间 | en:Set Exposure Time
-int CParameterSetting::SetExposureTime(const CMvCamera &CameraHandle, int index)
+int CParameterSetting::SetExposureTime(CMvCamera &CameraHandle, int index)
 {
     // ch:调节这两个曝光模式，才能让曝光时间生效
     // en:Adjust these two exposure mode to allow exposure time effective
-	CMvCamera camera = CameraHandle;
-    int nRet = camera.SetEnumValue("ExposureMode", MV_EXPOSURE_MODE_TIMED);
+
+    int nRet = CameraHandle.SetEnumValue("ExposureMode", MV_EXPOSURE_MODE_TIMED);
     if (MV_OK != nRet)
     {
         return nRet;
     }
 
-    nRet = camera.SetEnumValue("ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF);
-
+    nRet = CameraHandle.SetEnumValue("ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF);
 	switch (index)
 	{
 		case 1:
@@ -1011,7 +1012,7 @@ int CParameterSetting::SetExposureTime(const CMvCamera &CameraHandle, int index)
 			break;
 	}
 
-    nRet = camera.SetFloatValue("ExposureTime", (float)m_dExposureEdit);
+    nRet = CameraHandle.SetFloatValue("ExposureTime", (float)m_dExposureEdit);
     if (MV_OK != nRet)
     {
         return nRet;
@@ -1112,7 +1113,7 @@ int CParameterSetting::GetGain(CMvCamera &CameraHandle, int index)
 			}
 			else
 			{
-				m_dGainEdit = ui.le_gain_1->text().toInt();
+				m_dGainEdit = ui.le_gain_1->text().toDouble();
 			}
 			break;
 		}
@@ -1125,7 +1126,7 @@ int CParameterSetting::GetGain(CMvCamera &CameraHandle, int index)
 			}
 			else
 			{
-				m_dGainEdit = ui.le_gain_2->text().toInt();
+				m_dGainEdit = ui.le_gain_2->text().toDouble();
 			}
 			break;
 		}
@@ -1138,7 +1139,7 @@ int CParameterSetting::GetGain(CMvCamera &CameraHandle, int index)
 			}
 			else
 			{
-				m_dGainEdit = ui.le_gain_3->text().toInt();
+				m_dGainEdit = ui.le_gain_3->text().toDouble();
 			}
 			break;
 		}
@@ -1151,7 +1152,7 @@ int CParameterSetting::GetGain(CMvCamera &CameraHandle, int index)
 			}
 			else
 			{
-				m_dGainEdit = ui.le_gain_4->text().toInt();
+				m_dGainEdit = ui.le_gain_4->text().toDouble();
 			}
 			break;
 		}
@@ -1163,38 +1164,38 @@ int CParameterSetting::GetGain(CMvCamera &CameraHandle, int index)
 }
 
 // ch:设置增益 | en:Set Gain
-int CParameterSetting::SetGain(const CMvCamera &CameraHandle, int index)
+int CParameterSetting::SetGain(CMvCamera &CameraHandle, int index)
 {
     // ch:设置增益前先把自动增益关闭，失败无需返回
     // en:Set Gain after Auto Gain is turned off, this failure does not need to return
-	CMvCamera camera = CameraHandle;
-    int nRet = camera.SetEnumValue("GainAuto", 0);
+
+    int nRet = CameraHandle.SetEnumValue("GainAuto", 0);
 	switch (index)
 	{
 		case 1:
 			{
-				m_dGainEdit = ui.le_gain_1->text().toInt();
+				m_dGainEdit = ui.le_gain_1->text().toDouble();
 			}
 			break;
 		case 2:
 			{
-				m_dGainEdit = ui.le_gain_2->text().toInt();
+				m_dGainEdit = ui.le_gain_2->text().toDouble();
 			}
 			break;
 		case 3:
 			{
-				m_dGainEdit = ui.le_gain_3->text().toInt();
+				m_dGainEdit = ui.le_gain_3->text().toDouble();
 			}
 			break;
 		case 4:
 			{
-				m_dGainEdit = ui.le_gain_4->text().toInt();
+				m_dGainEdit = ui.le_gain_4->text().toDouble();
 			}
 			break;
 		default:;
 	}
     
-    return camera.SetFloatValue("Gain", (float)m_dGainEdit);
+    return CameraHandle.SetFloatValue("Gain", (float)m_dGainEdit);
 }
 
 // ch:显示错误信息 | en:Show error message
@@ -1360,4 +1361,17 @@ void CParameterSetting::getCameraParams(int index)
     update();
 
     return;
+}
+
+void CParameterSetting::SafeParamsSetting()
+{
+	if ((m_dGainEdit <= 15.0061998 && m_dGainEdit > 1) && (m_dExposureEdit <= 9999571 && m_dExposureEdit > 59))
+	{
+
+	}
+	else
+	{
+		ShowErrorMsg("ERROR:PLEASE SETTING RIGHT EXPOSURE PARAM ARANGE: 59-9999571, GAIN ARANGE: 1.00520003-15.0061998",0);
+	}
+	
 }

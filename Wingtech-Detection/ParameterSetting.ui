@@ -365,7 +365,7 @@ color: rgb(85, 0, 255);</string>
             </property>
             <property name="maximumSize">
              <size>
-              <width>100</width>
+              <width>16777215</width>
               <height>16777215</height>
              </size>
             </property>
@@ -491,7 +491,7 @@ color: rgb(85, 0, 255);</string>
            <widget class="QLineEdit" name="le_exposure_2">
             <property name="maximumSize">
              <size>
-              <width>59</width>
+              <width>16777215</width>
               <height>16777215</height>
              </size>
             </property>
@@ -623,8 +623,8 @@ color: rgb(85, 0, 255);</string>
            <widget class="QLineEdit" name="le_exposure_4">
             <property name="maximumSize">
              <size>
-              <width>59</width>
-              <height>59</height>
+              <width>16777215</width>
+              <height>16777215</height>
              </size>
             </property>
            </widget>
@@ -823,8 +823,8 @@ color: rgb(85, 0, 255);</string>
            <widget class="QLineEdit" name="le_exposure_3">
             <property name="maximumSize">
              <size>
-              <width>59</width>
-              <height>59</height>
+              <width>16777215</width>
+              <height>16777215</height>
              </size>
             </property>
            </widget>

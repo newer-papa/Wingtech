@@ -387,7 +387,7 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(le_exposure_1->sizePolicy().hasHeightForWidth());
         le_exposure_1->setSizePolicy(sizePolicy);
-        le_exposure_1->setMaximumSize(QSize(100, 16777215));
+        le_exposure_1->setMaximumSize(QSize(16777215, 16777215));
 
         gridLayout->addWidget(le_exposure_1, 4, 2, 1, 1);
 
@@ -460,7 +460,7 @@ public:
 
         le_exposure_2 = new QLineEdit(groupBox_Frist_3);
         le_exposure_2->setObjectName(QString::fromUtf8("le_exposure_2"));
-        le_exposure_2->setMaximumSize(QSize(59, 16777215));
+        le_exposure_2->setMaximumSize(QSize(16777215, 16777215));
 
         gridLayout_18->addWidget(le_exposure_2, 4, 2, 1, 1);
 
@@ -545,7 +545,7 @@ public:
 
         le_exposure_4 = new QLineEdit(groupBox_Frist_5);
         le_exposure_4->setObjectName(QString::fromUtf8("le_exposure_4"));
-        le_exposure_4->setMaximumSize(QSize(59, 59));
+        le_exposure_4->setMaximumSize(QSize(16777215, 16777215));
 
         gridLayout_25->addWidget(le_exposure_4, 4, 2, 1, 1);
 
@@ -670,7 +670,7 @@ public:
 
         le_exposure_3 = new QLineEdit(groupBox_Frist_4);
         le_exposure_3->setObjectName(QString::fromUtf8("le_exposure_3"));
-        le_exposure_3->setMaximumSize(QSize(59, 59));
+        le_exposure_3->setMaximumSize(QSize(16777215, 16777215));
 
         gridLayout_19->addWidget(le_exposure_3, 4, 2, 1, 1);
 
