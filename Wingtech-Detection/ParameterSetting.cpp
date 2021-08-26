@@ -321,6 +321,8 @@ void CParameterSetting::InitConnections()
 
 	connect(m_FirstCameraInfo.ImageCapture, SIGNAL(SendCameraImage(Mat, int)), this, SLOT(ReceiveCameraImage(Mat, int)));
 	connect(m_SecondCameraInfo.ImageCapture, SIGNAL(SendCameraImage(Mat, int)), this, SLOT(ReceiveCameraImage(Mat, int)));
+	connect(m_ThirdCameraInfo.ImageCapture, SIGNAL(SendCameraImage(Mat, int)), this, SLOT(ReceiveCameraImage(Mat, int)));
+	connect(m_FourCameraInfo.ImageCapture, SIGNAL(SendCameraImage(Mat, int)), this, SLOT(ReceiveCameraImage(Mat, int)));
 }
 
 void CParameterSetting::InitCamera()
@@ -660,11 +662,11 @@ void CParameterSetting::SaveConfig()
 	}
 	if (m_ThirdCameraInfo.bOpenCamera)
 	{
-		cfg->Write(CAMERA_SECTION, FIRST_CAMERA_NAME, m_FirstCameraInfo.CameraName);
+		cfg->Write(CAMERA_SECTION, THIRD_CAMERA_NAME, m_ThirdCameraInfo.CameraName);
 	}
 	if (m_FourCameraInfo.bOpenCamera)
 	{
-		cfg->Write(CAMERA_SECTION, SECOND_CAMERA_NAME, m_SecondCameraInfo.CameraName);
+		cfg->Write(CAMERA_SECTION, FOURTH_CAMERA_NAME, m_FourCameraInfo.CameraName);
 	}
 
 	bool bchecked = ui.checkBox_SaveNG_First->isChecked();
@@ -674,12 +676,57 @@ void CParameterSetting::SaveConfig()
 	{
 		cfg->Write(DATA_SECTION, NG_PATH, NGPath);
 	}
-	bchecked = ui.checkBox_SaveOK_Second->isChecked();
+	bchecked = ui.checkBox_SaveOK_First->isChecked();
 	cfg->Write(DATA_SECTION, SAVE_OK, bchecked);
-	QString OKPath = ui.lineEdit_OKPath_Second->text();
+	QString OKPath = ui.lineEdit_OKPath_First->text();
 	if (bchecked && !OKPath.isEmpty())
 	{
 		cfg->Write(DATA_SECTION, OK_PATH, OKPath);
+	}	
+
+	bool bchecked2 = ui.checkBox_SaveNG_Second->isChecked();
+	cfg->Write(DATA_SECTION, SAVE_NG, bchecked2);
+	QString NGPath2 = ui.lineEdit_NGPath_Second->text();
+	if (bchecked2 && !NGPath2.isEmpty())
+	{
+		cfg->Write(DATA_SECTION, NG_PATH, NGPath2);
+	}
+	bchecked2 = ui.checkBox_SaveOK_Second->isChecked();
+	cfg->Write(DATA_SECTION, SAVE_OK, bchecked2);
+	QString OKPath2 = ui.lineEdit_OKPath_Second->text();
+	if (bchecked2 && !OKPath.isEmpty())
+	{
+		cfg->Write(DATA_SECTION, OK_PATH, OKPath2);
+	}
+
+	bool bchecked3 = ui.checkBox_SaveNG_Third->isChecked();
+	cfg->Write(DATA_SECTION, SAVE_NG, bchecked3);
+	QString NGPath3 = ui.lineEdit_NGPath_Third->text();
+	if (bchecked3 && !NGPath.isEmpty())
+	{
+		cfg->Write(DATA_SECTION, NG_PATH, NGPath3);
+	}
+	bchecked3 = ui.checkBox_SaveOK_Third->isChecked();
+	cfg->Write(DATA_SECTION, SAVE_OK, bchecked3);
+	QString OKPath3 = ui.lineEdit_OKPath_Third->text();
+	if (bchecked3 && !OKPath.isEmpty())
+	{
+		cfg->Write(DATA_SECTION, OK_PATH, OKPath3);
+	}
+
+	bool bchecked4 = ui.checkBox_SaveNG_Fourth->isChecked();
+	cfg->Write(DATA_SECTION, SAVE_NG, bchecked4);
+	QString NGPath4 = ui.lineEdit_NGPath_Fourth->text();
+	if (bchecked4 && !NGPath.isEmpty())
+	{
+		cfg->Write(DATA_SECTION, NG_PATH, NGPath4);
+	}
+	bchecked4 = ui.checkBox_SaveOK_Fourth->isChecked();
+	cfg->Write(DATA_SECTION, SAVE_OK, bchecked4);
+	QString OKPath4 = ui.lineEdit_OKPath_Fourth->text();
+	if (bchecked4 && !OKPath.isEmpty())
+	{
+		cfg->Write(DATA_SECTION, OK_PATH, OKPath4);
 	}
 
 	bool bconnected = CPLCManager::GetInstance()->GetConnectStatus();
@@ -933,6 +980,36 @@ void CParameterSetting::LoadConfig()
 			}
 		}
 
+		QString ThirdCameraName = cfg->GetString(CAMERA_SECTION, THIRD_CAMERA_NAME);
+		qDebug() << "load config third camera name:" << ThirdCameraName;
+		printf("load config third camera name:%s\n", ThirdCameraName.toStdString().c_str());
+		if (!ThirdCameraName.isEmpty())
+		{
+			int index = ui.comboBox_Third->findText(ThirdCameraName);
+			qDebug() << "third camera comboBox index:" << index;
+			printf("third camera comboBox index:%d\n", index);
+			if (index != -1)
+			{
+				ui.comboBox_Third->setCurrentIndex(index);
+				OpenThirdCamera();
+			}
+		}
+
+		QString FourthCameraName = cfg->GetString(CAMERA_SECTION, FOURTH_CAMERA_NAME);
+		qDebug() << "load config fourth camera name:" << FourthCameraName;
+		printf("load config fourth camera name:%s\n", FourthCameraName.toStdString().c_str());
+		if (!FourthCameraName.isEmpty())
+		{
+			int index = ui.comboBox_Four->findText(FourthCameraName);
+			qDebug() << "fourth camera comboBox index:" << index;
+			printf("fourth camera comboBox index:%d\n", index);
+			if (index != -1)
+			{
+				ui.comboBox_Four->setCurrentIndex(index);
+				OpenFourthCamera();
+			}
+		}
+
 
 		bool rv = cfg->GetBool(COMMUNICATION_SECTOIN, COM_STATUS);
 		qDebug() << "load config plc connected:" << rv;
@@ -985,17 +1062,12 @@ void CParameterSetting::LoadConfig()
 				ui.lineEdit_OKPath_First->setText(OKPath);
 			}
 		}
-
-
 	}
 	else
 	{
 		qDebug() << IniPath << ",is not exist";
 		printf("%s,is not exist\n", IniPath.toStdString().c_str());
 	}
-
-
-
 
 }
 

@@ -5,6 +5,8 @@
 const QString CAMERA_SECTION = "Camera";
 const QString FIRST_CAMERA_NAME = "First_CameraName";
 const QString SECOND_CAMERA_NAME = "Second_CameraName";
+const QString THIRD_CAMERA_NAME = "Third_CameraName";
+const QString FOURTH_CAMERA_NAME = "Fourth_CameraName";
 
 
 //通讯相关

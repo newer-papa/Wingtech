@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1555</width>
-    <height>1111</height>
+    <width>1660</width>
+    <height>1174</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1028,23 +1028,10 @@ color: rgb(85, 0, 255);</string>
           <string>一工位-相机参数</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_First">
-            <property name="maximumSize">
-             <size>
-              <width>101</width>
-              <height>16777215</height>
-             </size>
-            </property>
+          <item row="3" column="7">
+           <widget class="QPushButton" name="pushButton_LoadOKPath_First">
             <property name="text">
-             <string>相机名称</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QRadioButton" name="radioButton_FreeFirst">
-            <property name="text">
-             <string>自由采集</string>
+             <string>打开路径</string>
             </property>
            </widget>
           </item>
@@ -1061,37 +1048,33 @@ color: rgb(85, 0, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="7">
-           <widget class="QPushButton" name="pushButton_LoadOKPath_First">
-            <property name="text">
-             <string>打开路径</string>
+          <item row="3" column="2" colspan="5">
+           <widget class="QLineEdit" name="lineEdit_OKPath_First">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>OK图像路径</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="5" colspan="2">
-           <widget class="QRadioButton" name="radioButton_SoftFirst">
+          <item row="4" column="4">
+           <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>软触发</string>
+             <string>增益</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="3" colspan="2">
-           <widget class="QRadioButton" name="radioButton_ExternalFirst">
-            <property name="text">
-             <string>硬触发</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="7">
-           <widget class="QPushButton" name="pushButton_OpenFirst">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_First">
             <property name="maximumSize">
              <size>
-              <width>111</width>
+              <width>101</width>
               <height>16777215</height>
              </size>
             </property>
             <property name="text">
-             <string>打开相机</string>
+             <string>相机名称</string>
             </property>
            </widget>
           </item>
@@ -1105,6 +1088,53 @@ color: rgb(85, 0, 255);</string>
             </property>
             <property name="text">
              <string>触发一次</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" colspan="5">
+           <widget class="QComboBox" name="comboBox_First">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5" colspan="2">
+           <widget class="QRadioButton" name="radioButton_SoftFirst">
+            <property name="text">
+             <string>软触发</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QLineEdit" name="le_exposure_1">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QRadioButton" name="radioButton_FreeFirst">
+            <property name="text">
+             <string>自由采集</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3" colspan="2">
+           <widget class="QRadioButton" name="radioButton_ExternalFirst">
+            <property name="text">
+             <string>硬触发</string>
             </property>
            </widget>
           </item>
@@ -1122,10 +1152,19 @@ color: rgb(85, 0, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>曝光</string>
+          <item row="4" column="5">
+           <widget class="QLineEdit" name="le_gain_1">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -1139,19 +1178,6 @@ color: rgb(85, 0, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="2" colspan="5">
-           <widget class="QLineEdit" name="lineEdit_OKPath_First">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="placeholderText">
-             <string>OK图像路径</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2" colspan="5">
-           <widget class="QComboBox" name="comboBox_First"/>
-          </item>
           <item row="4" column="7">
            <widget class="QPushButton" name="pushButton_SaveParams">
             <property name="text">
@@ -1159,45 +1185,23 @@ color: rgb(85, 0, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="5">
-           <widget class="QLineEdit" name="le_gain_1">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
+          <item row="0" column="7">
+           <widget class="QPushButton" name="pushButton_OpenFirst">
             <property name="maximumSize">
              <size>
-              <width>59</width>
+              <width>111</width>
               <height>16777215</height>
              </size>
             </property>
-           </widget>
-          </item>
-          <item row="4" column="4">
-           <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>增益</string>
+             <string>打开相机</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="2">
-           <widget class="QLineEdit" name="le_exposure_1">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>59</width>
-              <height>16777215</height>
-             </size>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>曝光</string>
             </property>
            </widget>
           </item>
@@ -1229,10 +1233,53 @@ color: rgb(85, 0, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="4" colspan="2">
-           <widget class="QLabel" name="label_15">
+          <item row="2" column="2" colspan="5">
+           <widget class="QLineEdit" name="lineEdit_NGPath_Second">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>NG图像路径</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" colspan="5">
+           <widget class="QComboBox" name="comboBox_Second"/>
+          </item>
+          <item row="4" column="7">
+           <widget class="QPushButton" name="pushButton_SaveParams_Second">
             <property name="text">
-             <string>增益</string>
+             <string>保存参数</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5" colspan="2">
+           <widget class="QRadioButton" name="radioButton_SoftSecond">
+            <property name="text">
+             <string>软触发</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="7">
+           <widget class="QPushButton" name="pushButton_OpenSecond">
+            <property name="maximumSize">
+             <size>
+              <width>111</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>打开相机</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2" colspan="5">
+           <widget class="QLineEdit" name="lineEdit_OKPath_Second">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>OK图像路径</string>
             </property>
            </widget>
           </item>
@@ -1240,6 +1287,20 @@ color: rgb(85, 0, 255);</string>
            <widget class="QRadioButton" name="radioButton_FreeSecond">
             <property name="text">
              <string>自由采集</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="2">
+           <widget class="QCheckBox" name="checkBox_SaveOK_Second">
+            <property name="text">
+             <string>保存OK</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="4" colspan="2">
+           <widget class="QLabel" name="label_15">
+            <property name="text">
+             <string>增益</string>
             </property>
            </widget>
           </item>
@@ -1263,10 +1324,10 @@ color: rgb(85, 0, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="5" colspan="2">
-           <widget class="QRadioButton" name="radioButton_SoftSecond">
+          <item row="2" column="0" colspan="2">
+           <widget class="QCheckBox" name="checkBox_SaveNG_Second">
             <property name="text">
-             <string>软触发</string>
+             <string>保存NG</string>
             </property>
            </widget>
           </item>
@@ -1277,16 +1338,13 @@ color: rgb(85, 0, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="7">
-           <widget class="QPushButton" name="pushButton_OpenSecond">
+          <item row="4" column="2">
+           <widget class="QLineEdit" name="le_exposure_2">
             <property name="maximumSize">
              <size>
-              <width>111</width>
+              <width>16777215</width>
               <height>16777215</height>
              </size>
-            </property>
-            <property name="text">
-             <string>打开相机</string>
             </property>
            </widget>
           </item>
@@ -1303,67 +1361,13 @@ color: rgb(85, 0, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0" colspan="2">
-           <widget class="QCheckBox" name="checkBox_SaveNG_Second">
-            <property name="text">
-             <string>保存NG</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="2">
-           <widget class="QCheckBox" name="checkBox_SaveOK_Second">
-            <property name="text">
-             <string>保存OK</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2">
-           <widget class="QLineEdit" name="le_exposure_2">
-            <property name="maximumSize">
-             <size>
-              <width>59</width>
-              <height>16777215</height>
-             </size>
-            </property>
-           </widget>
+          <item row="4" column="6">
+           <widget class="QLineEdit" name="le_gain_2"/>
           </item>
           <item row="4" column="0">
            <widget class="QLabel" name="label_16">
             <property name="text">
              <string>曝光</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2" colspan="5">
-           <widget class="QLineEdit" name="lineEdit_NGPath_Second">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="placeholderText">
-             <string>NG图像路径</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2" colspan="5">
-           <widget class="QLineEdit" name="lineEdit_OKPath_Second">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="placeholderText">
-             <string>OK图像路径</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2" colspan="5">
-           <widget class="QComboBox" name="comboBox_Second"/>
-          </item>
-          <item row="4" column="6">
-           <widget class="QLineEdit" name="le_gain_2"/>
-          </item>
-          <item row="4" column="7">
-           <widget class="QPushButton" name="pushButton_SaveParams_Second">
-            <property name="text">
-             <string>保存参数</string>
             </property>
            </widget>
           </item>
@@ -1382,6 +1386,47 @@ color: rgb(85, 0, 255);</string>
           <string>一工位-相机参数</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_19">
+          <item row="5" column="4" colspan="2">
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string>增益</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3" colspan="2">
+           <widget class="QRadioButton" name="radioButton_ExternalThird">
+            <property name="text">
+             <string>硬触发</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="2">
+           <widget class="QCheckBox" name="checkBox_SaveOK_Third">
+            <property name="text">
+             <string>保存OK</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5" colspan="2">
+           <widget class="QRadioButton" name="radioButton_SoftThird">
+            <property name="text">
+             <string>软触发</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="7">
+           <widget class="QPushButton" name="pushButton_TriggerThird">
+            <property name="maximumSize">
+             <size>
+              <width>111</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>触发一次</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="label_First_5">
             <property name="maximumSize">
@@ -1395,10 +1440,26 @@ color: rgb(85, 0, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="4" colspan="2">
-           <widget class="QLabel" name="label_17">
+          <item row="0" column="2" colspan="5">
+           <widget class="QComboBox" name="comboBox_Third"/>
+          </item>
+          <item row="0" column="7">
+           <widget class="QPushButton" name="pushButton_OpenThird">
+            <property name="maximumSize">
+             <size>
+              <width>111</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
-             <string>增益</string>
+             <string>打开相机</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="7">
+           <widget class="QPushButton" name="pushButton_LoadOKPath_Third">
+            <property name="text">
+             <string>打开路径</string>
             </property>
            </widget>
           </item>
@@ -1422,91 +1483,10 @@ color: rgb(85, 0, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="7">
-           <widget class="QPushButton" name="pushButton_LoadOKPath_Third">
-            <property name="text">
-             <string>打开路径</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="5" colspan="2">
-           <widget class="QRadioButton" name="radioButton_SoftThird">
-            <property name="text">
-             <string>软触发</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3" colspan="2">
-           <widget class="QRadioButton" name="radioButton_ExternalThird">
-            <property name="text">
-             <string>硬触发</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="7">
-           <widget class="QPushButton" name="pushButton_OpenThird">
-            <property name="maximumSize">
-             <size>
-              <width>111</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>打开相机</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="7">
-           <widget class="QPushButton" name="pushButton_TriggerThird">
-            <property name="maximumSize">
-             <size>
-              <width>111</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>触发一次</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0" colspan="2">
            <widget class="QCheckBox" name="checkBox_SaveNG_Third">
             <property name="text">
              <string>保存NG</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="2">
-           <widget class="QCheckBox" name="checkBox_SaveOK_Third">
-            <property name="text">
-             <string>保存OK</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2">
-           <widget class="QLineEdit" name="le_exposure_3">
-            <property name="maximumSize">
-             <size>
-              <width>59</width>
-              <height>59</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_18">
-            <property name="text">
-             <string>曝光</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2" colspan="5">
-           <widget class="QLineEdit" name="lineEdit_NGPath_Third">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="placeholderText">
-             <string>NG图像路径</string>
             </property>
            </widget>
           </item>
@@ -1520,18 +1500,42 @@ color: rgb(85, 0, 255);</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="2" colspan="5">
-           <widget class="QComboBox" name="comboBox_Third"/>
+          <item row="5" column="2">
+           <widget class="QLineEdit" name="le_exposure_3">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+           </widget>
           </item>
-          <item row="4" column="6">
-           <widget class="QLineEdit" name="le_gain_3"/>
+          <item row="2" column="2" colspan="5">
+           <widget class="QLineEdit" name="lineEdit_NGPath_Third">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>NG图像路径</string>
+            </property>
+           </widget>
           </item>
-          <item row="4" column="7">
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>曝光</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="7">
            <widget class="QPushButton" name="pushButton_SaveParams_Third">
             <property name="text">
              <string>保存参数</string>
             </property>
            </widget>
+          </item>
+          <item row="5" column="6">
+           <widget class="QLineEdit" name="le_gain_3"/>
           </item>
          </layout>
         </widget>
@@ -1619,8 +1623,8 @@ color: rgb(85, 0, 255);</string>
            <widget class="QLineEdit" name="le_exposure_4">
             <property name="maximumSize">
              <size>
-              <width>59</width>
-              <height>59</height>
+              <width>16777215</width>
+              <height>16777215</height>
              </size>
             </property>
            </widget>
@@ -1759,7 +1763,7 @@ color: rgb(85, 0, 255);</string>
    <slot>ShowFristRender(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>868</x>
+     <x>973</x>
      <y>94</y>
     </hint>
     <hint type="destinationlabel">
@@ -1775,7 +1779,7 @@ color: rgb(85, 0, 255);</string>
    <slot>ShowSecondRender(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1378</x>
+     <x>1483</x>
      <y>94</y>
     </hint>
     <hint type="destinationlabel">
@@ -1791,8 +1795,8 @@ color: rgb(85, 0, 255);</string>
    <slot>CopyRegisterCode()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>481</x>
-     <y>1010</y>
+     <x>120</x>
+     <y>972</y>
     </hint>
     <hint type="destinationlabel">
      <x>519</x>
@@ -1807,8 +1811,8 @@ color: rgb(85, 0, 255);</string>
    <slot>SoftwareRegister()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>481</x>
-     <y>1049</y>
+     <x>120</x>
+     <y>972</y>
     </hint>
     <hint type="destinationlabel">
      <x>403</x>
@@ -1823,8 +1827,8 @@ color: rgb(85, 0, 255);</string>
    <slot>LoadFirstImage()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>161</x>
-     <y>175</y>
+     <x>130</x>
+     <y>92</y>
     </hint>
     <hint type="destinationlabel">
      <x>769</x>
@@ -1839,8 +1843,8 @@ color: rgb(85, 0, 255);</string>
    <slot>SetSystemType(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>329</x>
-     <y>102</y>
+     <x>130</x>
+     <y>92</y>
     </hint>
     <hint type="destinationlabel">
      <x>777</x>
@@ -1855,8 +1859,8 @@ color: rgb(85, 0, 255);</string>
    <slot>SaveCameraParams1()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>502</x>
-     <y>275</y>
+     <x>598</x>
+     <y>305</y>
     </hint>
     <hint type="destinationlabel">
      <x>429</x>
@@ -1871,8 +1875,8 @@ color: rgb(85, 0, 255);</string>
    <slot>OpenFirstCamera()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>502</x>
-     <y>119</y>
+     <x>598</x>
+     <y>125</y>
     </hint>
     <hint type="destinationlabel">
      <x>769</x>
@@ -1887,8 +1891,8 @@ color: rgb(85, 0, 255);</string>
    <slot>OpenSecondCamera()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>502</x>
-     <y>359</y>
+     <x>598</x>
+     <y>402</y>
     </hint>
     <hint type="destinationlabel">
      <x>829</x>
@@ -1897,34 +1901,34 @@ color: rgb(85, 0, 255);</string>
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_OpenFourth</sender>
+   <sender>pushButton_OpenThird</sender>
    <signal>clicked()</signal>
-   <receiver>label_FourthImage</receiver>
-   <slot>OpenFourthCamera()</slot>
+   <receiver>DialogSetting</receiver>
+   <slot>OpenThirdCamera()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>502</x>
-     <y>904</y>
+     <x>569</x>
+     <y>667</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1535</x>
-     <y>1009</y>
+     <x>633</x>
+     <y>678</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_OpenThird</sender>
+   <sender>pushButton_OpenFourth</sender>
    <signal>clicked()</signal>
-   <receiver>label_ThirdImage</receiver>
-   <slot>OpenThirdCamera()</slot>
+   <receiver>DialogSetting</receiver>
+   <slot>OpenFourthCamera()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>502</x>
-     <y>644</y>
+     <x>561</x>
+     <y>943</y>
     </hint>
     <hint type="destinationlabel">
-     <x>800</x>
-     <y>854</y>
+     <x>634</x>
+     <y>950</y>
     </hint>
    </hints>
   </connection>
@@ -1956,5 +1960,7 @@ color: rgb(85, 0, 255);</string>
   <slot>SaveCameraParams2()</slot>
   <slot>SaveCameraParams3()</slot>
   <slot>SaveCameraParams4()</slot>
+  <slot>OpenThirdCamera()</slot>
+  <slot>OpenFourthCamera()</slot>
  </slots>
 </ui>
