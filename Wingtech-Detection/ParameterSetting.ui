@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1660</width>
+    <width>1675</width>
     <height>1174</height>
    </rect>
   </property>
@@ -345,7 +345,7 @@ color: rgb(85, 0, 255);</string>
    <item row="0" column="0" rowspan="2">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
@@ -484,16 +484,16 @@ color: rgb(85, 0, 255);</string>
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QPushButton" name="pushButton_LoadFirstImage_2">
+         <widget class="QPushButton" name="pushButton_LoadThirdImage">
           <property name="text">
-           <string>加载一工位图像</string>
+           <string>加载三工位图像</string>
           </property>
          </widget>
         </item>
         <item row="3" column="3">
-         <widget class="QPushButton" name="pushButton_LoadSecondImage_2">
+         <widget class="QPushButton" name="pushButton_LoadFourthImage">
           <property name="text">
-           <string>加载二工位图像</string>
+           <string>加载四工位图像</string>
           </property>
          </widget>
         </item>

@@ -84,8 +84,6 @@ void CParameterSetting::InitVariables()
 	m_FourCameraInfo.ImageCapture->SetSystemType(RUN_ONLINE);
 	ui.lineEdit_IP->setValidator(new QRegExpValidator(reg));
 
-
-
 	m_SaveImage.start();
 }
 void CParameterSetting::InitTableWidget()
@@ -323,6 +321,8 @@ void CParameterSetting::InitConnections()
 	connect(m_SecondCameraInfo.ImageCapture, SIGNAL(SendCameraImage(Mat, int)), this, SLOT(ReceiveCameraImage(Mat, int)));
 	connect(m_ThirdCameraInfo.ImageCapture, SIGNAL(SendCameraImage(Mat, int)), this, SLOT(ReceiveCameraImage(Mat, int)));
 	connect(m_FourCameraInfo.ImageCapture, SIGNAL(SendCameraImage(Mat, int)), this, SLOT(ReceiveCameraImage(Mat, int)));
+
+	
 }
 
 void CParameterSetting::InitCamera()
@@ -604,9 +604,13 @@ void CParameterSetting::SetSystemType(int index)
 		type = OFFLINE_ALGO_TEST;
 		ui.pushButton_LoadFirstImage->setEnabled(true);
 		ui.pushButton_LoadSecondImage->setEnabled(true);
+		ui.pushButton_LoadThirdImage->setEnabled(true);
+		ui.pushButton_LoadFourthImage->setEnabled(true);
 	}
 	m_FirstCameraInfo.ImageCapture->SetSystemType(type);
 	m_SecondCameraInfo.ImageCapture->SetSystemType(type);
+	m_ThirdCameraInfo.ImageCapture->SetSystemType(type);
+	m_FourCameraInfo.ImageCapture->SetSystemType(type);
 }
 void CParameterSetting::ReceiveCameraImage(Mat image, int index)
 {

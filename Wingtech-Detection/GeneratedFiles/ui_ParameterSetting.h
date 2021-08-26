@@ -73,8 +73,8 @@ public:
     QGridLayout *gridLayout_3;
     QPushButton *pushButton_LoadFirstImage;
     QLabel *label_8;
-    QPushButton *pushButton_LoadFirstImage_2;
-    QPushButton *pushButton_LoadSecondImage_2;
+    QPushButton *pushButton_LoadThirdImage;
+    QPushButton *pushButton_LoadFourthImage;
     QPushButton *pushButton_LoadSecondImage;
     QComboBox *comboBox_SystemType;
     QGroupBox *groupBox_10;
@@ -205,7 +205,7 @@ public:
     {
         if (DialogSetting->objectName().isEmpty())
             DialogSetting->setObjectName(QString::fromUtf8("DialogSetting"));
-        DialogSetting->resize(1660, 1174);
+        DialogSetting->resize(1675, 1174);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/CMainWindow/Resources/settings.png"), QSize(), QIcon::Normal, QIcon::Off);
         DialogSetting->setWindowIcon(icon);
@@ -430,15 +430,15 @@ public:
 
         gridLayout_3->addWidget(label_8, 0, 0, 1, 1);
 
-        pushButton_LoadFirstImage_2 = new QPushButton(groupBox_4);
-        pushButton_LoadFirstImage_2->setObjectName(QString::fromUtf8("pushButton_LoadFirstImage_2"));
+        pushButton_LoadThirdImage = new QPushButton(groupBox_4);
+        pushButton_LoadThirdImage->setObjectName(QString::fromUtf8("pushButton_LoadThirdImage"));
 
-        gridLayout_3->addWidget(pushButton_LoadFirstImage_2, 3, 0, 1, 1);
+        gridLayout_3->addWidget(pushButton_LoadThirdImage, 3, 0, 1, 1);
 
-        pushButton_LoadSecondImage_2 = new QPushButton(groupBox_4);
-        pushButton_LoadSecondImage_2->setObjectName(QString::fromUtf8("pushButton_LoadSecondImage_2"));
+        pushButton_LoadFourthImage = new QPushButton(groupBox_4);
+        pushButton_LoadFourthImage->setObjectName(QString::fromUtf8("pushButton_LoadFourthImage"));
 
-        gridLayout_3->addWidget(pushButton_LoadSecondImage_2, 3, 3, 1, 1);
+        gridLayout_3->addWidget(pushButton_LoadFourthImage, 3, 3, 1, 1);
 
         pushButton_LoadSecondImage = new QPushButton(groupBox_4);
         pushButton_LoadSecondImage->setObjectName(QString::fromUtf8("pushButton_LoadSecondImage"));
@@ -1112,7 +1112,7 @@ public:
         QObject::connect(pushButton_OpenThird, SIGNAL(clicked()), DialogSetting, SLOT(OpenThirdCamera()));
         QObject::connect(pushButton_OpenFourth, SIGNAL(clicked()), DialogSetting, SLOT(OpenFourthCamera()));
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(DialogSetting);
@@ -1150,8 +1150,8 @@ public:
         groupBox_4->setTitle(QCoreApplication::translate("DialogSetting", "\347\263\273\347\273\237\345\217\202\346\225\260", nullptr));
         pushButton_LoadFirstImage->setText(QCoreApplication::translate("DialogSetting", "\345\212\240\350\275\275\344\270\200\345\267\245\344\275\215\345\233\276\345\203\217", nullptr));
         label_8->setText(QCoreApplication::translate("DialogSetting", "\350\277\220\350\241\214\346\250\241\345\274\217", nullptr));
-        pushButton_LoadFirstImage_2->setText(QCoreApplication::translate("DialogSetting", "\345\212\240\350\275\275\344\270\200\345\267\245\344\275\215\345\233\276\345\203\217", nullptr));
-        pushButton_LoadSecondImage_2->setText(QCoreApplication::translate("DialogSetting", "\345\212\240\350\275\275\344\272\214\345\267\245\344\275\215\345\233\276\345\203\217", nullptr));
+        pushButton_LoadThirdImage->setText(QCoreApplication::translate("DialogSetting", "\345\212\240\350\275\275\344\270\211\345\267\245\344\275\215\345\233\276\345\203\217", nullptr));
+        pushButton_LoadFourthImage->setText(QCoreApplication::translate("DialogSetting", "\345\212\240\350\275\275\345\233\233\345\267\245\344\275\215\345\233\276\345\203\217", nullptr));
         pushButton_LoadSecondImage->setText(QCoreApplication::translate("DialogSetting", "\345\212\240\350\275\275\344\272\214\345\267\245\344\275\215\345\233\276\345\203\217", nullptr));
         groupBox_10->setTitle(QCoreApplication::translate("DialogSetting", "\351\200\232\350\256\257", nullptr));
         label_5->setText(QCoreApplication::translate("DialogSetting", "IP", nullptr));
