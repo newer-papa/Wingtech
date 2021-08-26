@@ -253,7 +253,7 @@ void CMainWindow::RefreshResultDetails()
     m_Camera4Images.clear();
     m_Camera4Result = true;
 }
-
+///
 bool CMainWindow::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonPress)
